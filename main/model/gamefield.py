@@ -14,3 +14,6 @@ class Gamefield:
         self.rootWindow.onkeypress(basilisk.moveDownwards, "Down")
         self.rootWindow.onkeypress(basilisk.moveLeftwards, "Left")
         self.rootWindow.onkeypress(basilisk.moveRightwards, "Right")
+    
+    def gamefieldUpdate(self):
+        self.rootWindow.update()

@@ -31,9 +31,9 @@ if __name__ == "__main__":
     myGameField.gameListenToPresskey(basilisk)
 
     while True:
-        myGameField.rootWindow.update()
-        endGame = basilisk.mouth.xcor() > 290 or basilisk.mouth.xcor() < -290 or basilisk.mouth.ycor() > 290 or basilisk.mouth.ycor() < -290
-        if endGame:
+        myGameField.gamefieldUpdate()
+        
+        if basilisk.basiliskIsDead():
             myHeadline.writeHeadlineForGameOver()
             time.sleep(1)
             basilisk.mouth.home()

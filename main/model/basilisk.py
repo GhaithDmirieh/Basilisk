@@ -60,4 +60,7 @@ class Basilisk:
         oneBodyBlock.color(oneBodyBlockColor)
         oneBodyBlock.penup()
         self.body.append(oneBodyBlock)
+    
+    def basiliskIsDead(self):
+        return self.mouth.xcor() > 290 or self.mouth.xcor() < -290 or self.mouth.ycor() > 290 or self.mouth.ycor() < -290
 
