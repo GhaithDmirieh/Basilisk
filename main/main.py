@@ -12,19 +12,17 @@ myGameField = Gamefield("test", "green")
 myHeadline = Headline()
 
 def gameOver():
+    myHeadline.writeHeadlineForGameOver()
+    time.sleep(1)
+    basilisk.mouth.home()
+    basilisk.mouth.direction = "stop"
+    
     for item in basilisk.body:
-        if item.distance(basilisk.mouth) < 20:
-            myHeadline.writeHeadlineForGameOver()
-            time.sleep(1)
-            basilisk.mouth.home()
-            basilisk.mouth.direction = "stop"
-        
-            for x in basilisk.body:
-                x.goto(1000, 1000)
-            basilisk.body.clear()
-            basilisk.score = 0
-            basilisk.speed = 0.1
-            myHeadline.writeNewHeadline(basilisk.score, basilisk.high_score)
+        item.goto(1000, 1000)
+    basilisk.body.clear()
+    basilisk.score = 0
+    basilisk.speed = 0.1
+    myHeadline.writeNewHeadline(basilisk.score, basilisk.high_score)
 
 if __name__ == "__main__":
 
