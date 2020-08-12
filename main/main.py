@@ -28,11 +28,7 @@ def gameOver():
 
 if __name__ == "__main__":
 
-    myGameField.rootWindow.listen()
-    myGameField.rootWindow.onkeypress(basilisk.moveUpwards, "Up")
-    myGameField.rootWindow.onkeypress(basilisk.moveDownwards, "Down")
-    myGameField.rootWindow.onkeypress(basilisk.moveLeftwards, "Left")
-    myGameField.rootWindow.onkeypress(basilisk.moveRightwards, "Right")
+    myGameField.gameListenToPresskey(basilisk)
 
     while True:
         myGameField.rootWindow.update()
