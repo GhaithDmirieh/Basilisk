@@ -4,18 +4,19 @@ import random
 from model.basilisk import Basilisk
 from model.object import Object
 from model.gamefield import Gamefield
+from model.headline import Headline
 
 basilisk = Basilisk("square", "red")
 apple = Object("square", "white")
 myGameField = Gamefield("test", "green")
+myHeadline = Headline()
 
 def gameOver():
     for item in basilisk.body:
         if item.distance(basilisk.mouth) < 20:
-            basilisk.headline.clear()
-            basilisk.headline.write("Game Over", align= "center", font=("Courier", 18 ,"normal"))
+            myHeadline.writeHeadlineForGameOver()
             time.sleep(1)
-            basilisk.mouth.goto(0,0)
+            basilisk.mouth.home()
             basilisk.mouth.direction = "stop"
         
             for x in basilisk.body:
@@ -23,8 +24,8 @@ def gameOver():
                 basilisk.body.clear()
                 basilisk.score = 0
                 basilisk.speed = 0.1
-                basilisk.headline.clear()
-                basilisk.headline.write("Score:{} High Score: {}".format(basilisk.score, basilisk.high_score), align ="center", font=("Courier", 18 ,"normal"))
+                myHeadline.headline.clear()
+                myHeadline.headline.write("Score:{} High Score: {}".format(basilisk.score, basilisk.high_score), align ="center", font=("Courier", 18 ,"normal"))
 
 if __name__ == "__main__":
 
@@ -38,8 +39,7 @@ if __name__ == "__main__":
         myGameField.rootWindow.update()
         endGame = basilisk.mouth.xcor() > 290 or basilisk.mouth.xcor() < -290 or basilisk.mouth.ycor() > 290 or basilisk.mouth.ycor() < -290
         if endGame:
-            basilisk.headline.clear()
-            basilisk.headline.write("Game Over", align= "center", font=("Courier", 18 ,"normal"))
+            myHeadline.writeHeadlineForGameOver()
             time.sleep(1)
             basilisk.mouth.goto(0,0)
             basilisk.mouth.direction = "stop"
@@ -50,8 +50,8 @@ if __name__ == "__main__":
 
             basilisk.score = 0
             basilisk.speed = 0.1
-            basilisk.headline.clear()
-            basilisk.headline.write("Score:{} High Score: {}".format(basilisk.score, basilisk.high_score), align ="center", font=("Courier", 18 ,"normal"))
+            myHeadline.headline.clear()
+            myHeadline.headline.write("Score:{} High Score: {}".format(basilisk.score, basilisk.high_score), align ="center", font=("Courier", 18 ,"normal"))
 
         if basilisk.mouth.distance(apple.obj) < 20:
             apple.randomPos() #TODO: Pos darf nicht in Snakes Körper oder Headline stehen
@@ -63,8 +63,8 @@ if __name__ == "__main__":
 
             if basilisk.score > basilisk.high_score:
                 basilisk.high_score = basilisk.score
-                basilisk.headline.clear()
-                basilisk.headline.write("Score:{} High Score: {}".format(basilisk.score, basilisk.high_score), align ="center", font=("Courier", 18 ,"normal"))
+                myHeadline.headline.clear()
+                myHeadline.headline.write("Score:{} High Score: {}".format(basilisk.score, basilisk.high_score), align ="center", font=("Courier", 18 ,"normal"))
 
         basilisk.bodyfollowMouth()
         basilisk.move()

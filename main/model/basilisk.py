@@ -2,9 +2,9 @@ import turtle
 import time
 
 class Basilisk:
-    
+
     def __init__(self, shape, mouthColor):
-        self.speed = 0.1
+        self.speed= 0.1
         self.score = 0
         self.high_score = 0
 
@@ -17,15 +17,6 @@ class Basilisk:
         self.mouth.penup()
 
         self.body = []
-
-        self.headline = turtle.Turtle()
-        self.headline.speed(0)
-        self.headline.shape("square")
-        self.headline.color("white")
-        self.headline.penup()
-        self.headline.hideturtle() # Versteckter Überschrift
-        self.headline.goto(0,250)
-        self.headline.write("Score: 0 High Score: 0,", align= "center", font=("Courier", 18 ,"normal"))
 
     def moveUpwards(self):
         if self.mouth.direction != "down":
