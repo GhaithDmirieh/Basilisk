@@ -21,10 +21,10 @@ def gameOver():
         
             for x in basilisk.body:
                 x.goto(1000, 1000)
-                basilisk.body.clear()
-                basilisk.score = 0
-                basilisk.speed = 0.1
-                myHeadline.writeNewHeadline(basilisk.score, basilisk.high_score)
+            basilisk.body.clear()
+            basilisk.score = 0
+            basilisk.speed = 0.1
+            myHeadline.writeNewHeadline(basilisk.score, basilisk.high_score)
 
 if __name__ == "__main__":
 
@@ -42,7 +42,6 @@ if __name__ == "__main__":
             for item in basilisk.body:
                 item.goto(1000, 1000)
             basilisk.body.clear()
-
             basilisk.score = 0
             basilisk.speed = 0.1
             myHeadline.writeNewHeadline(basilisk.score, basilisk.high_score)
