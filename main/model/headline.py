@@ -14,3 +14,7 @@ class Headline:
     def writeHeadlineForGameOver(self):
         self.headline.clear()
         self.headline.write("Game Over", align= "center", font=("Courier", 18 ,"normal"))
+
+    def writeNewHeadline(self, score, newScore):
+        self.headline.clear()
+        self.headline.write("Score:{} High Score: {}".format(score, newScore), align ="center", font=("Courier", 18 ,"normal"))
