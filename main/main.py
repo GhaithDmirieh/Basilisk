@@ -41,7 +41,7 @@ if __name__ == "__main__":
         if endGame:
             myHeadline.writeHeadlineForGameOver()
             time.sleep(1)
-            basilisk.mouth.goto(0,0)
+            basilisk.mouth.home()
             basilisk.mouth.direction = "stop"
         
             for item in basilisk.body:
