@@ -11,6 +11,8 @@ apple = Object("square", "white")
 myGameField = Gamefield("test", "green")
 myHeadline = Headline()
 
+#TODO: Es darf nicht auf class-Attribute hier  zugegriffen werden
+
 def gameOver():
     myHeadline.writeHeadlineForGameOver()
     time.sleep(1)
@@ -31,10 +33,11 @@ if __name__ == "__main__":
     while True:
         myGameField.gamefieldUpdate()
         
+        
         if basilisk.basiliskIsDead():
             gameOver()
 
-        if basilisk.mouth.distance(apple.obj) < 20:
+        if basilisk.basiliskEats(apple.getObj()):
             apple.randomPos() #TODO: Pos darf nicht in Snakes Körper oder Headline stehen
             basilisk.basiliskFeeded("black")
 

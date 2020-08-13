@@ -71,4 +71,7 @@ class Basilisk:
             basiliskEatsHerself = item.distance(self.mouth) < 20
             if basiliskEatsHerself:
                 return True
+    
+    def basiliskEats(self, obj):
+        return self.mouth.distance(obj) < 20
 
