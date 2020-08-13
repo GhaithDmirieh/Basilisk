@@ -4,7 +4,7 @@ import time
 class Basilisk:
 
     def __init__(self, shape, mouthColor):
-        self.speed= 0.1
+        self.speed = 0.1
         self.score = 0
         self.high_score = 0
 
@@ -17,6 +17,25 @@ class Basilisk:
         self.mouth.penup()
 
         self.body = []
+
+    def getSpeed(self):
+        return self.speed
+    
+    def getScore(self):
+        return self.score
+    
+    def getHighScore(self):
+        return self.high_score
+    
+    def setSpeed(self, speed):
+        self.speed = speed
+    
+    def setScore(self, score):
+        self.score = score
+    
+    def setHighScore(self, highScore):
+        self.high_score = highScore
+
 
     def moveUpwards(self):
         if self.mouth.direction != "down":

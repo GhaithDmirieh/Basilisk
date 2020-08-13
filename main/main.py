@@ -22,9 +22,9 @@ def gameOver():
     for item in basilisk.body:
         item.goto(1000, 1000)
     basilisk.body.clear()
-    basilisk.score = 0
-    basilisk.speed = 0.1
-    myHeadline.writeNewHeadline(basilisk.score, basilisk.high_score)
+    basilisk.setScore(0)
+    basilisk.setSpeed(0.1)
+    myHeadline.writeNewHeadline(basilisk.getScore(), basilisk.getHighScore())
 
 if __name__ == "__main__":
 
@@ -41,12 +41,12 @@ if __name__ == "__main__":
             apple.randomPos() #TODO: Pos darf nicht in Snakes Körper oder Headline stehen
             basilisk.basiliskFeeded("black")
 
-            basilisk.speed -= 0.001
-            basilisk.score += 10
+            basilisk.setSpeed(basilisk.getSpeed() - 0.001)
+            basilisk.setScore(basilisk.getScore() + 10)
 
-            if basilisk.score > basilisk.high_score:
-                basilisk.high_score = basilisk.score
-                myHeadline.writeNewHeadline(basilisk.score, basilisk.high_score)
+            if basilisk.getScore() > basilisk.getHighScore():
+                basilisk.setHighScore(basilisk.getScore())
+                myHeadline.writeNewHeadline(basilisk.getScore(), basilisk.getHighScore())
 
         basilisk.bodyfollowMouth()
         basilisk.move()
