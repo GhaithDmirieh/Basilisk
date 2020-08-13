@@ -45,4 +45,4 @@ if __name__ == "__main__":
         basilisk.move()
 
         time.sleep(basilisk.getSpeed())
-    myGameField.rootWindow.mainloop()
+    myGameField.gamefieldMainloop()

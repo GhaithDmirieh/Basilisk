@@ -17,3 +17,6 @@ class Gamefield:
     
     def gamefieldUpdate(self):
         self.rootWindow.update()
+    
+    def gamefieldMainloop(self):
+        self.rootWindow.mainloop()
