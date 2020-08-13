@@ -17,9 +17,6 @@ class Object:
         self.obj.color(color)
         return
 
-    def getPos(self):
-        return self.obj.goto
-
     def setPos(self, x, y):
         self.obj.goto(x,y)
         return
