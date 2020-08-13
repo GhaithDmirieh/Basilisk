@@ -16,12 +16,8 @@ myHeadline = Headline()
 def gameOver():
     myHeadline.writeHeadlineForGameOver()
     time.sleep(1)
-    basilisk.mouth.home()
-    basilisk.mouth.direction = "stop"
-    
-    for item in basilisk.body:
-        item.goto(1000, 1000)
-    basilisk.body.clear()
+    basilisk.basiliskGoHome()
+    basilisk.basiliskDeleteBody()
     basilisk.setScore(0)
     basilisk.setSpeed(0.1)
     myHeadline.writeNewHeadline(basilisk.getScore(), basilisk.getHighScore())
@@ -32,15 +28,12 @@ if __name__ == "__main__":
 
     while True:
         myGameField.gamefieldUpdate()
-        
-        
+
         if basilisk.basiliskIsDead():
             gameOver()
-
         if basilisk.basiliskEats(apple.getObj()):
             apple.randomPos() #TODO: Pos darf nicht in Snakes Körper oder Headline stehen
             basilisk.basiliskFeeded("black")
-
             basilisk.setSpeed(basilisk.getSpeed() - 0.001)
             basilisk.setScore(basilisk.getScore() + 10)
 
@@ -48,8 +41,8 @@ if __name__ == "__main__":
                 basilisk.setHighScore(basilisk.getScore())
                 myHeadline.writeNewHeadline(basilisk.getScore(), basilisk.getHighScore())
 
-        basilisk.bodyfollowMouth()
+        basilisk.bodyFollowMouth()
         basilisk.move()
 
-        time.sleep(basilisk.speed)
+        time.sleep(basilisk.getSpeed())
     myGameField.rootWindow.mainloop()

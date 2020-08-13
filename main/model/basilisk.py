@@ -66,7 +66,7 @@ class Basilisk:
         if self.mouth.direction == "right":
             self.mouth.setx(self.mouth.xcor() + 20)
     
-    def bodyfollowMouth(self):
+    def bodyFollowMouth(self):
         for index in range(len(self.body)-1 , 0, -1):
             self.body[index].goto(self.body[index-1].xcor(), self.body[index-1].ycor())
         if len(self.body) > 0:
@@ -93,4 +93,13 @@ class Basilisk:
     
     def basiliskEats(self, obj):
         return self.mouth.distance(obj) < 20
+
+    def basiliskGoHome(self):
+        self.mouth.home()
+        self.mouth.direction = "stop"
+    
+    def basiliskDeleteBody(self):
+        for item in self.body:
+            item.goto(1000, 1000) # Gibt es keine bessere Weise !
+        self.body.clear()
 
