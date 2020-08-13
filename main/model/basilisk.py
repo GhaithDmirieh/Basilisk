@@ -12,7 +12,7 @@ class Basilisk:
         self.mouth.speed(0)
         self.mouth.shape(shape)
         self.mouth.color(mouthColor)
-        self.mouth.goto(0,0) # Anfangsposition
+        self.mouth.home() #Home ist clearer than goto(0,0)
         self.mouth.direction = "stop"
         self.mouth.penup()
 
