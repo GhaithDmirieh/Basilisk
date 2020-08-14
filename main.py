@@ -11,10 +11,15 @@ from model.object import Object
 from model.gamefield import Gamefield
 from model.headline import Headline
 
-basilisk = Basilisk("square", "red")
-apple = Object("square", "white")
-myGameField = Gamefield("test", "green")
-myHeadline = Headline()
+rootWindow = tk.Tk()
+subWindowForGamefiled = tk.Canvas(rootWindow, width=600, height=600)
+subWindowForBestList = tk.Canvas(rootWindow, width=200, height=570)
+subWindowForGamefiled.pack(side = tk.LEFT)
+subWindowForBestList.pack(side = tk.TOP)
+
+
+myGameField = Gamefield(subWindowForGamefiled, "green")
+bestListField = Gamefield(subWindowForBestList, "springgreen4")
 
 gifApple = "model/resources/Apple.gif"
 gifUp = "model/resources/up.gif"
@@ -59,10 +64,10 @@ if __name__ == "__main__":
 
             if basilisk.getScore() > basilisk.getHighScore():
                 basilisk.setHighScore(basilisk.getScore())
-                myHeadline.writeNewHeadline(basilisk.getScore(), basilisk.getHighScore())
-
+                headlineForGame.writeNewHeadline(basilisk.getScore(), basilisk.getHighScore())
+                
         basilisk.bodyFollowMouth()
         basilisk.move()
-
         time.sleep(basilisk.getSpeed())
-    myGameField.gamefieldMainloop()
+
+    myGameField.gamefieldMainloop()
