@@ -16,7 +16,20 @@ apple = Object("square", "white")
 myGameField = Gamefield("test", "green")
 myHeadline = Headline()
 
-#TODO: Es darf nicht auf class-Attribute hier  zugegriffen werden
+gifApple = "model/resources/Apple.gif"
+gifUp = "model/resources/up.gif"
+gifDown = "model/resources/down.gif"
+gifLeft = "model/resources/left.gif"
+gifRight = "model/resources/right.gif"
+gifBody = "model/resources/body.gif"
+
+imageList = [gifApple, gifUp, gifDown, gifLeft, gifRight, gifBody]
+
+for image in imageList:
+    myGameField.addShape(image)
+
+basilisk = Basilisk(myGameField.getRootWindow(), gifUp)
+apple = Object(myGameField.getRootWindow(), gifApple)
 
 def gameOver():
     myHeadline.writeHeadlineForGameOver()
@@ -38,7 +51,9 @@ if __name__ == "__main__":
             gameOver()
         if basilisk.basiliskEats(apple.getObj()):
             apple.randomPos() #TODO: Pos darf nicht in Snakes Körper oder Headline stehen
-            basilisk.basiliskFeeded("black")
+            
+            
+            basilisk.basiliskFeeded(myGameField.getRootWindow() ,gifBody)
             basilisk.setSpeed(basilisk.getSpeed() - 0.001)
             basilisk.setScore(basilisk.getScore() + 10)
 
@@ -50,4 +65,4 @@ if __name__ == "__main__":
         basilisk.move()
 
         time.sleep(basilisk.getSpeed())
-    myGameField.gamefieldMainloop()
+    myGameField.gamefieldMainloop()

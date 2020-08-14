@@ -23,3 +23,6 @@ class Gamefield:
     
     def gamefieldMainloop(self):
         self.rootWindow.mainloop()
+    
+    def addShape(self, gif):
+        self.rootWindow.addshape(gif)

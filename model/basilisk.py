@@ -38,20 +38,28 @@ class Basilisk:
 
 
     def moveUpwards(self):
+        gifUp = "model/resources/up.gif"
         if self.mouth.direction != "down":
             self.mouth.direction = "up"
+            self.mouth.shape(gifUp)
 
     def moveDownwards(self):
+        gifDown = "model/resources/down.gif"
         if self.mouth.direction != "up":
             self.mouth.direction = "down"
+            self.mouth.shape(gifDown)
 
     def moveLeftwards(self):
+        gifLeft = "model/resources/left.gif"
         if self.mouth.direction != "right":
             self.mouth.direction = "left"
+            self.mouth.shape(gifLeft)
 
     def moveRightwards(self):
+        gifRight = "model/resources/right.gif"
         if self.mouth.direction != "left":
             self.mouth.direction = "right"
+            self.mouth.shape(gifRight)
     
     def move(self):
         if self.mouth.direction == "up":
@@ -75,8 +83,7 @@ class Basilisk:
     def basiliskFeeded(self, window, shape):
         oneBodyBlock = RawTurtle(window)
         oneBodyBlock.speed(0)
-        oneBodyBlock.shape(self.mouth.shape())
-        oneBodyBlock.color(oneBodyBlockColor)
+        oneBodyBlock.shape(shape)
         oneBodyBlock.penup()
         self.body.append(oneBodyBlock)
     
