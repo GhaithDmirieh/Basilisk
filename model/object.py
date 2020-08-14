@@ -1,21 +1,17 @@
 import turtle
 import random
+from turtle import RawTurtle, TurtleScreen
 
 class Object:
-    def __init__(self, shape, color):
-        self.obj = turtle.Turtle()
+    def __init__(self, window, shape):
+        self.obj = RawTurtle(window)
         self.obj.speed(0)
         self.obj.shape(shape)
-        self.obj.color(color)
         self.obj.penup()
         self.obj.goto(0,100)
 
     def getObj(self):
         return self.obj
-
-    def setColor(self, color):
-        self.obj.color(color)
-        return
 
     def setPos(self, x, y):
         self.obj.goto(x,y)

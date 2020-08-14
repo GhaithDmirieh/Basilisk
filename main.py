@@ -1,6 +1,11 @@
-import turtle
 import time
 import random
+
+import tkinter as tk
+from turtle import RawTurtle, TurtleScreen
+import tkinter.messagebox
+
+
 from model.basilisk import Basilisk
 from model.object import Object
 from model.gamefield import Gamefield

@@ -1,14 +1,17 @@
 import turtle
+from turtle import RawTurtle, TurtleScreen
 
 class Gamefield:
-    def __init__(self, title, backgroundColor):
-        self.rootWindow = turtle.Screen()
-        self.rootWindow.title(title)
+    def __init__(self, tkFrame, backgroundColor):
+        self.rootWindow = TurtleScreen(tkFrame)
         self.rootWindow.bgcolor(backgroundColor)
-        self.rootWindow.setup(width = 600 , height = 600) # Erstelle Spielfeld
         self.rootWindow.tracer(0)
+
+
+    def getRootWindow(self):
+        return self.rootWindow
     
-    def gameListenToPresskey(self, basilisk): # basilisk muss ein Turtle-Element sein
+    def gameListenToPresskey(self, basilisk):
         self.rootWindow.listen()
         self.rootWindow.onkeypress(basilisk.moveUpwards, "Up")
         self.rootWindow.onkeypress(basilisk.moveDownwards, "Down")

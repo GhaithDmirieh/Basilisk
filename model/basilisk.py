@@ -1,17 +1,17 @@
 import turtle
 import time
+from turtle import RawTurtle, TurtleScreen
 
 class Basilisk:
 
-    def __init__(self, shape, mouthColor):
+    def __init__(self, window, shape):
         self.speed = 0.1
         self.score = 0
         self.high_score = 0
 
-        self.mouth = turtle.Turtle()
+        self.mouth = RawTurtle(window)
         self.mouth.speed(0)
         self.mouth.shape(shape)
-        self.mouth.color(mouthColor)
         self.mouth.home() #Home ist clearer than goto(0,0)
         self.mouth.direction = "stop"
         self.mouth.penup()
@@ -72,8 +72,8 @@ class Basilisk:
         if len(self.body) > 0:
             self.body[0].goto(self.mouth.xcor(),self.mouth.ycor())
 
-    def basiliskFeeded(self, oneBodyBlockColor):
-        oneBodyBlock = turtle.Turtle()
+    def basiliskFeeded(self, window, shape):
+        oneBodyBlock = RawTurtle(window)
         oneBodyBlock.speed(0)
         oneBodyBlock.shape(self.mouth.shape())
         oneBodyBlock.color(oneBodyBlockColor)

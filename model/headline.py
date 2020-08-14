@@ -1,8 +1,9 @@
 import turtle
+from turtle import RawTurtle, TurtleScreen
 
 class Headline:
-    def __init__(self):
-        self.headline = turtle.Turtle()
+    def __init__(self, window, content, x, y):
+        self.headline = RawTurtle(window)
         self.headline.speed(0)
         self.headline.shape("square")
         self.headline.color("white")
