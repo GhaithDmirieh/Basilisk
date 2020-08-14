@@ -9,8 +9,8 @@ class Headline:
         self.headline.color("white")
         self.headline.penup()
         self.headline.hideturtle() # Versteckter Überschrift
-        self.headline.goto(0,250)
-        self.headline.write("Score: 0 High Score: 0,", align= "center", font=("Courier", 18 ,"normal"))
+        self.headline.goto(x, y)
+        self.headline.write(content, align= "center", font=("Courier", 18 ,"normal"))
     
     def writeHeadlineForGameOver(self):
         self.headline.clear()
@@ -19,3 +19,8 @@ class Headline:
     def writeNewHeadline(self, score, newScore):
         self.headline.clear()
         self.headline.write("Score:{} High Score: {}".format(score, newScore), align ="center", font=("Courier", 18 ,"normal"))
+    
+    def writeNewHeadlineForBestList(self, content):
+        self.headline.clear()
+        self.headline.write(content , align ="center", font=("Courier", 18 ,"normal"))
+#"besten Liste\n{}".format(number)
