@@ -1,31 +1,32 @@
 import time
 import random
+import copy
 
 import tkinter as tk
 from turtle import RawTurtle, TurtleScreen
 import tkinter.messagebox
-
-
 from model.basilisk import Basilisk
 from model.object import Object
 from model.gamefield import Gamefield
 from model.headline import Headline
 
-highScoreList = [0,0,0,0,0]
+highScoreList = []
 
-#try:
-#    f = open("text.txt", "r")
-#    fileContentInString = f.read()
-#    tempList =  [item for item in fileContentInString.split(',')]
-#    tempList.pop()
-#
-#    for i in range(0, len(tempList) -1):
-#        tempList[i] = tempList[i].strip(',')
-#        int(tempList[i])
-#        highScoreList[i] = tempList[i]
-#    f.close()
-#except:
-#    highScoreList = [0,0,0,0,0] # temp
+try:
+    f = open("highScoreList.txt", "r")
+    fileContentInString = f.read()
+    f.close()
+
+    tempList =  [item for item in fileContentInString.split(',')]
+    tempList.pop()
+
+    for i in range(0, len(tempList)):
+        tempList[i] = int(tempList[i])
+
+    highScoreList = copy.deepcopy(tempList)
+
+except:
+    highScoreList = [0,0,0,0,0]
 
 rootWindow = tk.Tk()
 subWindowForGamefiled = tk.Canvas(rootWindow, width=600, height=600)
@@ -57,6 +58,10 @@ apple = Object(myGameField.getRootWindow(), gifApple)
 headlineForGame = Headline(myGameField.getRootWindow(), headlineContent, 0, 250)
 headlineForBestList = Headline(bestListField.getRootWindow(), headlineForBestListContent, 0, 0)
 
+tt = "Best List:\n {} --> {}\n {} --> {}\n {} --> {}\n {} --> {}\n {} --> {}".format(1, highScoreList[4], 2, highScoreList[3], 3, highScoreList[2], 4, highScoreList[1], 5, highScoreList[0])
+
+headlineForBestList.writeNewHeadlineForBestList(tt)
+
 def gameOver():
     headlineForGame.writeHeadlineForGameOver()
     time.sleep(1)
@@ -77,7 +82,7 @@ def saveHighScoreInFile():
                 del(highScoreList[0])
                 temp = "Best List:\n {} --> {}\n {} --> {}\n {} --> {}\n {} --> {}\n {} --> {}".format(1, highScoreList[4], 2, highScoreList[3], 3, highScoreList[2], 4, highScoreList[1], 5, highScoreList[0])
                 headlineForBestList.writeNewHeadlineForBestList(temp)
-                fileR = open("text.txt", "w")
+                fileR = open("highScoreList.txt", "w")
                 for y in highScoreList:
                     fileR.write("{},".format(str(y)))
                 fileR.close()
