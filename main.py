@@ -103,6 +103,7 @@ if __name__ == "__main__":
             basilisk.basiliskFeeded(myGameField.getRootWindow() ,gifBody)
             basilisk.setSpeed(basilisk.getSpeed() - 0.001)
             basilisk.setScore(basilisk.getScore() + 10)
+            headlineForGame.writeNewHeadline(basilisk.getScore(), basilisk.getHighScore())
 
             if basilisk.getScore() > basilisk.getHighScore():
                 basilisk.setHighScore(basilisk.getScore())
