@@ -113,6 +113,10 @@ if __name__ == "__main__":
 
         if basilisk.basiliskIsDead():
             gameOver()
+            basilisk.basiliskLives()
+            poison.setPos(0, -100)
+            apple.setPos(0, 100)
+
         if basilisk.basiliskEats(apple.getObj()):
             apple.randomPos() #TODO: Pos darf nicht in Snakes Körper oder Headline stehen
             
