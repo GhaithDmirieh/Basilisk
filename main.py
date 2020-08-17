@@ -1,7 +1,7 @@
 import time
 import random
 import copy
-
+import shelve
 import tkinter as tk
 from turtle import RawTurtle, TurtleScreen
 import tkinter.messagebox
@@ -60,6 +60,7 @@ poison = Object(myGameField.getRootWindow(), gifPoison)
 poison.setPos(0, -100)
 
 headlineForGame = Headline(myGameField.getRootWindow(), headlineContent, 0, 250)
+headlineForGame.writeNewHeadline(basilisk.getScore(), basilisk.getHighScore())
 headlineForBestList = Headline(bestListField.getRootWindow(), headlineForBestListContent, 0, 0)
 
 tt = "Best List:\n {} --> {}\n {} --> {}\n {} --> {}\n {} --> {}\n {} --> {}".format(1, highScoreList[4], 2, highScoreList[3], 3, highScoreList[2], 4, highScoreList[1], 5, highScoreList[0])
