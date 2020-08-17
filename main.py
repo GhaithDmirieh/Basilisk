@@ -108,6 +108,19 @@ def saveHighScoreInFile():
 def exit():
     rootWindow.destroy() #TODO: go to startmenü statt spiel verlassen
 
+def save():
+    applePos = (apple.getXPos(), apple.getYPos())
+    poisonPos = (poison.getXPos(), poison.getYPos())
+    mouthMos = (basilisk.getXPos(), basilisk.getYPos())
+    listOfBodyElements = basilisk.getBodyPosInList()
+
+    data = [applePos, poisonPos, mouthMos, listOfBodyElements]
+
+    f = open("lastGameData.txt", "w")
+    data = str(data)
+    f.write(data)
+    f.close()
+
 if __name__ == "__main__":
 
     tk.Button(master = rootWindow, text = "Exit", command = exit , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(side = tk.RIGHT)
