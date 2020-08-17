@@ -46,14 +46,18 @@ gifDown = "model/resources/down.gif"
 gifLeft = "model/resources/left.gif"
 gifRight = "model/resources/right.gif"
 gifBody = "model/resources/body.gif"
+gifPoison = "model/resources/poison.gif"
 
-imageList = [gifApple, gifUp, gifDown, gifLeft, gifRight, gifBody]
+imageList = [gifApple, gifUp, gifDown, gifLeft, gifRight, gifBody, gifPoison]
 
 for image in imageList:
     myGameField.addShape(image)
 
 basilisk = Basilisk(myGameField.getRootWindow(), gifUp)
 apple = Object(myGameField.getRootWindow(), gifApple)
+poison = Object(myGameField.getRootWindow(), gifPoison)
+
+poison.setPos(0, -100)
 
 headlineForGame = Headline(myGameField.getRootWindow(), headlineContent, 0, 250)
 headlineForBestList = Headline(bestListField.getRootWindow(), headlineForBestListContent, 0, 0)
@@ -87,18 +91,30 @@ def saveHighScoreInFile():
                     fileR.write("{},".format(str(y)))
                 fileR.close()
 
+def exit():
+    rootWindow.destroy() #TODO: go to startmenü statt spiel verlassen
+
 if __name__ == "__main__":
+
+    tk.Button(master = rootWindow, text = "Exit", command = exit , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(side = tk.RIGHT)
 
     myGameField.gameListenToPresskey(basilisk)
 
     while True:
         myGameField.gamefieldUpdate()
 
+        if basilisk.basiliskEats(poison.getObj()):
+            basilisk.basiliskPoisoned()
+            poison.randomPos()
+            basilisk.setSpeed(basilisk.getSpeed() + 0.001)
+            basilisk.setScore(basilisk.getScore() - 10)
+            headlineForGame.writeNewHeadline(basilisk.getScore(), basilisk.getHighScore())
+            
+
         if basilisk.basiliskIsDead():
             gameOver()
         if basilisk.basiliskEats(apple.getObj()):
             apple.randomPos() #TODO: Pos darf nicht in Snakes Körper oder Headline stehen
-            
             
             basilisk.basiliskFeeded(myGameField.getRootWindow() ,gifBody)
             basilisk.setSpeed(basilisk.getSpeed() - 0.001)

@@ -12,9 +12,11 @@ class Basilisk:
         self.mouth = RawTurtle(window)
         self.mouth.speed(0)
         self.mouth.shape(shape)
-        self.mouth.home() #Home ist clearer than goto(0,0)
+        self.mouth.home() # Home ist clearer than goto(0,0)
         self.mouth.direction = "stop"
         self.mouth.penup()
+        
+        self.deadFromPoison = False
 
         self.body = []
 
@@ -87,10 +89,22 @@ class Basilisk:
         oneBodyBlock.penup()
         self.body.append(oneBodyBlock)
     
+    #Wird noch verbessert
+    def basiliskPoisoned(self):
+        if len(self.body) > 0:
+            self.body[-1].goto(1000,1000)
+            self.body.pop()
+            return
+        else:
+            self.deadFromPoison = True
+    
+    def basiliskLives(self):
+        self.deadFromPoison = False
+
     def basiliskIsDead(self):
         basiliskPushTheWall = self.mouth.xcor() > 290 or self.mouth.xcor() < -290 or self.mouth.ycor() > 290 or self.mouth.ycor() < -290
         
-        if basiliskPushTheWall:
+        if basiliskPushTheWall or self.deadFromPoison:
             return True
         
         for item in self.body:
