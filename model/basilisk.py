@@ -23,6 +23,13 @@ class Basilisk:
 
         self.body = []
 
+
+    def getYPos(self):
+        return self.mouth.ycor()
+        
+    def getXPos(self):
+        return self.mouth.xcor()
+
     def getSpeed(self):
         return self.speed
     
@@ -95,6 +102,15 @@ class Basilisk:
         oneBodyBlock.penup()
         self.body.append(oneBodyBlock)
     
+    def getBodyPosInList(self):
+        listOfPos = []
+        if len(self.body) > 0:
+            for item in self.body:
+                temp = (item.xcor(), item.ycor())
+                listOfPos.append(temp)
+
+            return listOfPos
+
     #Wird noch verbessert
     def basiliskPoisoned(self):
         if len(self.body) > 0:

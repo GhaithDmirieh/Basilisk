@@ -13,6 +13,12 @@ class Object:
 
     def getObj(self):
         return self.obj
+    
+    def getYPos(self):
+        return self.obj.ycor()
+
+    def getXPos(self):
+        return self.obj.xcor()
 
     def setPos(self, x, y):
         self.obj.goto(x,y)
