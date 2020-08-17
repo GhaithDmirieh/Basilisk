@@ -1,13 +1,16 @@
 import turtle
 import time
 from turtle import RawTurtle, TurtleScreen
-
+import shelve
 class Basilisk:
 
     def __init__(self, window, shape):
         self.speed = 0.1
         self.score = 0
-        self.high_score = 0
+        d = shelve.open('highScore.txt')  # here you will save the score variable   
+        self.high_score = d['score']            # thats all, now it is saved on disk.
+        d.close()
+        
 
         self.mouth = RawTurtle(window)
         self.mouth.speed(0)
@@ -37,6 +40,9 @@ class Basilisk:
     
     def setHighScore(self, highScore):
         self.high_score = highScore
+        d= shelve.open('highScore.txt')
+        d['score'] = self.high_score
+        d.close()
 
 
     def moveUpwards(self):
