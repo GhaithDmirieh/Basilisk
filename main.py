@@ -110,7 +110,6 @@ if __name__ == "__main__":
             basilisk.setScore(basilisk.getScore() - 10)
             headlineForGame.writeNewHeadline(basilisk.getScore(), basilisk.getHighScore())
             
-
         if basilisk.basiliskIsDead():
             gameOver()
             basilisk.basiliskLives()
@@ -119,6 +118,8 @@ if __name__ == "__main__":
 
         if basilisk.basiliskEats(apple.getObj()):
             apple.randomPos() #TODO: Pos darf nicht in Snakes Körper oder Headline stehen
+            poison.randomPos()
+            
             
             basilisk.basiliskFeeded(myGameField.getRootWindow() ,gifBody)
             basilisk.setSpeed(basilisk.getSpeed() - 0.001)
