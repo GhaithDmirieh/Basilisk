@@ -67,6 +67,19 @@ tt = "Best List:\n {} --> {}\n {} --> {}\n {} --> {}\n {} --> {}\n {} --> {}".fo
 
 headlineForBestList.writeNewHeadlineForBestList(tt)
 
+def pause():
+    for i in [ 5, 4, 3, 2, 1 ,0]:
+        time.sleep(1)
+        line = RawTurtle(myGameField.getRootWindow())
+        line.speed(0)
+        line.shape("square")
+        line.color("white")
+        line.penup()
+        line.hideturtle() # Versteckter Überschrift 
+        line.goto(0,0)
+        line.write("Waiting for %s seconds" % i , align= "center", font=("Courier", 18 ,"normal"))
+        line.clear()
+        
 def gameOver():
     headlineForGame.writeHeadlineForGameOver()
     time.sleep(1)
@@ -98,7 +111,7 @@ def exit():
 if __name__ == "__main__":
 
     tk.Button(master = rootWindow, text = "Exit", command = exit , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(side = tk.RIGHT)
-
+    tk.Button(master = rootWindow, text = "pause", command = pause, bg='springgreen4' , activebackground = 'green', fg = 'white').pack(side = tk.RIGHT)
     myGameField.gameListenToPresskey(basilisk)
 
     while True:
