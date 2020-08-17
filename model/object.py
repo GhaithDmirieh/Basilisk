@@ -1,6 +1,7 @@
 import turtle
 import random
 from turtle import RawTurtle, TurtleScreen
+import shelve
 
 class Object:
     def __init__(self, window, shape):
@@ -20,6 +21,6 @@ class Object:
         return
     
     def randomPos(self): #Pos darf nicht in Snakes Körper oder Headline stehen
-        x = random.randint(-290,290)
-        y = random.randint(-290,290)
+        x = random.randint(-280,280)
+        y = random.randint(-280,280)
         self.setPos(x, y)
