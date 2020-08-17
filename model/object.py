@@ -15,6 +15,8 @@ class Object:
 
     def setPos(self, x, y):
         self.obj.goto(x,y)
+        self.obj.sety(self.obj.ycor()-(self.obj.ycor()%20))
+        self.obj.setx(self.obj.xcor()-(self.obj.xcor()%20))
         return
     
     def randomPos(self): #Pos darf nicht in Snakes Körper oder Headline stehen
