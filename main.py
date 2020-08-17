@@ -29,8 +29,8 @@ except:
     highScoreList = [0,0,0,0,0]
 
 rootWindow = tk.Tk()
-subWindowForGamefiled = tk.Canvas(rootWindow, width=600, height=600)
-subWindowForBestList = tk.Canvas(rootWindow, width=200, height=570)
+subWindowForGamefiled = tk.Canvas(rootWindow, width=580, height=580)
+subWindowForBestList = tk.Canvas(rootWindow, width=200, height=550)
 subWindowForGamefiled.pack(side = tk.LEFT)
 subWindowForBestList.pack(side = tk.TOP)
 
