@@ -2,16 +2,17 @@ import turtle
 import time
 from turtle import RawTurtle, TurtleScreen
 import shelve
+
 class Basilisk:
 
     def __init__(self, window, shape):
         self.speed = 0.1
         self.score = 0
-        d = shelve.open('highScore.txt')  # here you will save the score variable   
-        self.high_score = d['score']            # thats all, now it is saved on disk.
-        d.close()
+        self.high_score = 0
+#        d = shelve.open('highScore.txt')  # here you will save the score variable   
+#        self.high_score = d['score']            # thats all, now it is saved on disk.
+#        d.close()
         
-
         self.mouth = RawTurtle(window)
         self.mouth.speed(0)
         self.mouth.shape(shape)
@@ -25,9 +26,6 @@ class Basilisk:
 
     def getBodyLen(self):
         return len(self.body)
-
-#    def setBodyLen(self):
-
 
     def getYPos(self):
         return self.mouth.ycor()
