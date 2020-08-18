@@ -134,13 +134,13 @@ def load(): #Diese Funktion wird nur einmal vom Hauptmenü aufgerufen. Das Butto
     basilisk.setMouthDirection(data['dir']['direction'])
     basilisk.setScore(data['scores']['score'])
     basilisk.setHighScore(data['scores']['highScore'])
+    headlineForGame.writeNewHeadline(basilisk.getScore(), basilisk.getHighScore())
 
     for i in range(0, len(data['body'])):
         x = data['body'][i]['bodyBlock' + str(i)]["x"]
         y = data['body'][i]['bodyBlock' + str(i)]['y']
         basilisk.basiliskFeeded(myGameField.getRootWindow() ,gifBody)
         basilisk.setBodyBlockPos(i, x, y)
-
 
 if __name__ == "__main__":
     tk.Button(master = rootWindow, text = "Exit", command = exit , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(side = tk.RIGHT)
