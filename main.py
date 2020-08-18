@@ -150,6 +150,9 @@ if __name__ == "__main__":
 
     myGameField.gameListenToPresskey(basilisk)
 
+    basilisk.setHighScore(highScoreList[4])
+    headlineForGame.writeNewHeadline(basilisk.getScore(),highScoreList[4])
+
     while True:
         myGameField.gamefieldUpdate()
 
