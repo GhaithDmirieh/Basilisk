@@ -141,4 +141,7 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
-highScoreList.txt
+.txt
+.bat
+.bak
+.dir
