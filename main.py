@@ -67,6 +67,7 @@ tt = "Best List:\n {} --> {}\n {} --> {}\n {} --> {}\n {} --> {}\n {} --> {}".fo
 
 headlineForBestList.writeNewHeadlineForBestList(tt)
 
+
 def pause():
     for i in [ 5, 4, 3, 2, 1 ,0]:
         time.sleep(1)
@@ -75,11 +76,24 @@ def pause():
         line.shape("square")
         line.color("white")
         line.penup()
-        line.hideturtle() # Versteckter Überschrift 
+        line.hideturtle() # Versteckter Überschrift
         line.goto(0,0)
         line.write("Waiting for %s seconds" % i , align= "center", font=("Courier", 18 ,"normal"))
         line.clear()
-        
+
+def getReady():
+    for i in [ 5, 4, 3, 2, 1 ,0]:
+        time.sleep(1)
+        line = RawTurtle(myGameField.getRootWindow())
+        line.speed(0)
+        line.shape("square")
+        line.color("white")
+        line.penup()
+        line.hideturtle() # Versteckter Überschrift
+        line.goto(0,0)
+        line.write("Get ready %s" % i , align= "center", font=("Courier", 18 ,"normal"))
+        line.clear()
+
 def gameOver():
     headlineForGame.writeHeadlineForGameOver()
     time.sleep(1)
@@ -123,7 +137,7 @@ def save():
 
 
 def load(): #Diese Funktion wird nur einmal vom Hauptmenü aufgerufen. Das Button ist nur ein Test
-    pause()
+    getReady()
 
     with open('lastGameData.txt') as jFile:
         data = json.load(jFile)
