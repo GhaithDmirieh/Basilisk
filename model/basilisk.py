@@ -23,12 +23,20 @@ class Basilisk:
 
         self.body = []
 
+    def getBodyLen(self):
+        return len(self.body)
+
+#    def setBodyLen(self):
+
 
     def getYPos(self):
         return self.mouth.ycor()
         
     def getXPos(self):
         return self.mouth.xcor()
+
+    def setMouthPos(self, x, y):
+        self.mouth.goto(x,y)
 
     def getSpeed(self):
         return self.speed
@@ -51,6 +59,18 @@ class Basilisk:
         d['score'] = self.high_score
         d.close()
 
+    def getMouthDirection(self):
+        return self.mouth.direction
+
+    def setMouthDirection(self, mouthDirection):
+        if mouthDirection == "left":
+            self.moveLeftwards()
+        elif mouthDirection == "right":
+            self.moveRightwards()
+        elif mouthDirection == "up":
+            self.moveUpwards()
+        else:
+            self.moveDownwards()
 
     def moveUpwards(self):
         gifUp = "model/resources/up.gif"
@@ -102,14 +122,18 @@ class Basilisk:
         oneBodyBlock.penup()
         self.body.append(oneBodyBlock)
     
-    def getBodyPosInList(self):
-        listOfPos = []
+    def getBodyPosInListOfDic(self):
         if len(self.body) > 0:
-            for item in self.body:
-                temp = (item.xcor(), item.ycor())
-                listOfPos.append(temp)
+            allBlockskPos = []
+            for i in range(0, len(self.body)):
+                x = self.body[i].xcor()
+                y = self.body[i].ycor()
+                allBlockskPos.append({"bodyBlock" + str(i) : {'x': x, 'y': y}})
 
-            return listOfPos
+            return allBlockskPos
+
+    def setBodyBlockPos(self, i, x, y):
+        self.body[i].goto(x,y)
 
     #Wird noch verbessert
     def basiliskPoisoned(self):

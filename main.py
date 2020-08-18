@@ -1,8 +1,8 @@
 import time
 import random
 import copy
-import shelve
 import tkinter as tk
+import json
 from turtle import RawTurtle, TurtleScreen
 import tkinter.messagebox
 from model.basilisk import Basilisk
@@ -108,24 +108,45 @@ def saveHighScoreInFile():
 def exit():
     rootWindow.destroy() #TODO: go to startmenü statt spiel verlassen
 
+
 def save():
-    applePos = (apple.getXPos(), apple.getYPos())
-    poisonPos = (poison.getXPos(), poison.getYPos())
-    mouthMos = (basilisk.getXPos(), basilisk.getYPos())
-    listOfBodyElements = basilisk.getBodyPosInList()
+    data = {}
+    data['mouth'] = {'x': basilisk.getXPos(), 'y': basilisk.getYPos()}
+    data['apple'] = {'x': apple.getXPos(), 'y': apple.getYPos()}
+    data['poison'] = {'x': poison.getXPos(), 'y': poison.getYPos()}
+    data['body'] = basilisk.getBodyPosInListOfDic()
+    data['dir'] = {'direction': basilisk.getMouthDirection()}
+    data['scores'] = {'score': basilisk.getScore(), 'highScore': basilisk.getHighScore()}
 
-    data = [applePos, poisonPos, mouthMos, listOfBodyElements]
+    with open('lastGameData.txt', 'w') as dataFile:
+        json.dump(data, dataFile)
 
-    f = open("lastGameData.txt", "w")
-    data = str(data)
-    f.write(data)
-    f.close()
+
+def load(): #Diese Funktion wird nur einmal vom Hauptmenü aufgerufen. Das Button ist nur ein Test
+    pause()
+
+    with open('lastGameData.txt') as jFile:
+        data = json.load(jFile)
+    
+    basilisk.setMouthPos(data['mouth']['x'], data['mouth']['y'])
+    poison.setPos(data['poison']['x'], data['poison']['y'])
+    apple.setPos(data['apple']['x'], data['apple']['y'])
+    basilisk.setMouthDirection(data['dir']['direction'])
+    basilisk.setScore(data['scores']['score'])
+    basilisk.setHighScore(data['scores']['highScore'])
+
+    for i in range(0, len(data['body'])):
+        x = data['body'][i]['bodyBlock' + str(i)]["x"]
+        y = data['body'][i]['bodyBlock' + str(i)]['y']
+        basilisk.basiliskFeeded(myGameField.getRootWindow() ,gifBody)
+        basilisk.setBodyBlockPos(i, x, y)
+
 
 if __name__ == "__main__":
-
     tk.Button(master = rootWindow, text = "Exit", command = exit , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(side = tk.RIGHT)
     tk.Button(master = rootWindow, text = "save", command = save , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(side = tk.LEFT)
     tk.Button(master = rootWindow, text = "pause", command = pause, bg='springgreen4' , activebackground = 'green', fg = 'white').pack(side = tk.RIGHT)
+    tk.Button(master = rootWindow, text = "load", command = load, bg='springgreen4' , activebackground = 'green', fg = 'white').pack(side = tk.LEFT)
 
     myGameField.gameListenToPresskey(basilisk)
 
@@ -142,8 +163,6 @@ if __name__ == "__main__":
         if basilisk.basiliskIsDead():
             gameOver()
             basilisk.basiliskLives()
-            poison.setPos(0, -100)
-            apple.setPos(0, 100)
 
         if basilisk.basiliskEats(apple.getObj()):
             apple.randomPos() #TODO: Pos darf nicht in Snakes Körper oder Headline stehen
