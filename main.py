@@ -3,6 +3,7 @@ import random
 import copy
 import tkinter as tk
 import json
+import os
 from turtle import RawTurtle, TurtleScreen
 import tkinter.messagebox
 from model.basilisk import Basilisk
@@ -155,6 +156,8 @@ def load(): #Diese Funktion wird nur einmal vom Hauptmenü aufgerufen. Das Butto
         y = data['body'][i]['bodyBlock' + str(i)]['y']
         basilisk.basiliskFeeded(myGameField.getRootWindow() ,gifBody)
         basilisk.setBodyBlockPos(i, x, y)
+    
+    os.remove("S:/git/Basilisk/lastGameData.txt")
 
 if __name__ == "__main__":
     tk.Button(master = rootWindow, text = "Exit", command = exit , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(side = tk.RIGHT)
