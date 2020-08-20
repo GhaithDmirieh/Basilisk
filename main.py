@@ -1,8 +1,9 @@
 import time
 import random
 import copy
-
 import tkinter as tk
+import json
+import os
 from turtle import RawTurtle, TurtleScreen
 import tkinter.messagebox
 from model.basilisk import Basilisk
@@ -29,8 +30,8 @@ except:
     highScoreList = [0,0,0,0,0]
 
 rootWindow = tk.Tk()
-subWindowForGamefiled = tk.Canvas(rootWindow, width=600, height=600)
-subWindowForBestList = tk.Canvas(rootWindow, width=200, height=570)
+subWindowForGamefiled = tk.Canvas(rootWindow, width=580, height=580)
+subWindowForBestList = tk.Canvas(rootWindow, width=200, height=550)
 subWindowForGamefiled.pack(side = tk.LEFT)
 subWindowForBestList.pack(side = tk.TOP)
 
@@ -60,11 +61,39 @@ poison = Object(myGameField.getRootWindow(), gifPoison)
 poison.setPos(0, -100)
 
 headlineForGame = Headline(myGameField.getRootWindow(), headlineContent, 0, 250)
+headlineForGame.writeNewHeadline(basilisk.getScore(), basilisk.getHighScore())
 headlineForBestList = Headline(bestListField.getRootWindow(), headlineForBestListContent, 0, 0)
 
 tt = "Best List:\n {} --> {}\n {} --> {}\n {} --> {}\n {} --> {}\n {} --> {}".format(1, highScoreList[4], 2, highScoreList[3], 3, highScoreList[2], 4, highScoreList[1], 5, highScoreList[0])
 
 headlineForBestList.writeNewHeadlineForBestList(tt)
+
+
+def pause():
+    for i in [ 5, 4, 3, 2, 1 ,0]:
+        time.sleep(1)
+        line = RawTurtle(myGameField.getRootWindow())
+        line.speed(0)
+        line.shape("square")
+        line.color("white")
+        line.penup()
+        line.hideturtle() # Versteckter Überschrift
+        line.goto(0,0)
+        line.write("Waiting for %s seconds" % i , align= "center", font=("Courier", 18 ,"normal"))
+        line.clear()
+
+def getReady():
+    for i in [ 5, 4, 3, 2, 1 ,0]:
+        time.sleep(1)
+        line = RawTurtle(myGameField.getRootWindow())
+        line.speed(0)
+        line.shape("square")
+        line.color("white")
+        line.penup()
+        line.hideturtle() # Versteckter Überschrift
+        line.goto(0,0)
+        line.write("Get ready %s" % i , align= "center", font=("Courier", 18 ,"normal"))
+        line.clear()
 
 def gameOver():
     headlineForGame.writeHeadlineForGameOver()
@@ -94,11 +123,52 @@ def saveHighScoreInFile():
 def exit():
     rootWindow.destroy() #TODO: go to startmenü statt spiel verlassen
 
-if __name__ == "__main__":
 
+def save():
+    data = {}
+    data['mouth'] = {'x': basilisk.getXPos(), 'y': basilisk.getYPos()}
+    data['apple'] = {'x': apple.getXPos(), 'y': apple.getYPos()}
+    data['poison'] = {'x': poison.getXPos(), 'y': poison.getYPos()}
+    data['body'] = basilisk.getBodyPosInListOfDic()
+    data['dir'] = {'direction': basilisk.getMouthDirection()}
+    data['scores'] = {'score': basilisk.getScore(), 'highScore': basilisk.getHighScore()}
+
+    with open('lastGameData.txt', 'w') as dataFile:
+        json.dump(data, dataFile)
+
+
+def load(): #Diese Funktion wird nur einmal vom Hauptmenü aufgerufen. Das Button ist nur ein Test
+    getReady()
+
+    with open('lastGameData.txt') as jFile:
+        data = json.load(jFile)
+    
+    basilisk.setMouthPos(data['mouth']['x'], data['mouth']['y'])
+    poison.setPos(data['poison']['x'], data['poison']['y'])
+    apple.setPos(data['apple']['x'], data['apple']['y'])
+    basilisk.setMouthDirection(data['dir']['direction'])
+    basilisk.setScore(data['scores']['score'])
+    basilisk.setHighScore(data['scores']['highScore'])
+    headlineForGame.writeNewHeadline(basilisk.getScore(), basilisk.getHighScore())
+
+    for i in range(0, len(data['body'])):
+        x = data['body'][i]['bodyBlock' + str(i)]["x"]
+        y = data['body'][i]['bodyBlock' + str(i)]['y']
+        basilisk.basiliskFeeded(myGameField.getRootWindow() ,gifBody)
+        basilisk.setBodyBlockPos(i, x, y)
+    
+    os.remove("S:/git/Basilisk/lastGameData.txt")
+
+if __name__ == "__main__":
     tk.Button(master = rootWindow, text = "Exit", command = exit , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(side = tk.RIGHT)
+    tk.Button(master = rootWindow, text = "save", command = save , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(side = tk.LEFT)
+    tk.Button(master = rootWindow, text = "pause", command = pause, bg='springgreen4' , activebackground = 'green', fg = 'white').pack(side = tk.RIGHT)
+    tk.Button(master = rootWindow, text = "load", command = load, bg='springgreen4' , activebackground = 'green', fg = 'white').pack(side = tk.LEFT)
 
     myGameField.gameListenToPresskey(basilisk)
+
+    basilisk.setHighScore(highScoreList[4])
+    headlineForGame.writeNewHeadline(basilisk.getScore(),highScoreList[4])
 
     while True:
         myGameField.gamefieldUpdate()
@@ -110,15 +180,14 @@ if __name__ == "__main__":
             basilisk.setScore(basilisk.getScore() - 10)
             headlineForGame.writeNewHeadline(basilisk.getScore(), basilisk.getHighScore())
             
-
         if basilisk.basiliskIsDead():
             gameOver()
             basilisk.basiliskLives()
-            poison.setPos(0, -100)
-            apple.setPos(0, 100)
 
         if basilisk.basiliskEats(apple.getObj()):
             apple.randomPos() #TODO: Pos darf nicht in Snakes Körper oder Headline stehen
+            poison.randomPos()
+            
             
             basilisk.basiliskFeeded(myGameField.getRootWindow() ,gifBody)
             basilisk.setSpeed(basilisk.getSpeed() - 0.001)
