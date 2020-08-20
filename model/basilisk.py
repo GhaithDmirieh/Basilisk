@@ -7,8 +7,8 @@ class Basilisk:
     def __init__(self, window, shape):
         self.speed = 0.1
         self.score = 0
-        self.high_score = 0
-
+        self.highScore = 0
+        
         self.mouth = RawTurtle(window)
         self.mouth.speed(0)
         self.mouth.shape(shape)
@@ -20,6 +20,18 @@ class Basilisk:
 
         self.body = []
 
+    def getBodyLen(self):
+        return len(self.body)
+
+    def getYPos(self):
+        return self.mouth.ycor()
+        
+    def getXPos(self):
+        return self.mouth.xcor()
+
+    def setMouthPos(self, x, y):
+        self.mouth.goto(x,y)
+
     def getSpeed(self):
         return self.speed
     
@@ -27,7 +39,7 @@ class Basilisk:
         return self.score
     
     def getHighScore(self):
-        return self.high_score
+        return self.highScore
     
     def setSpeed(self, speed):
         self.speed = speed
@@ -36,8 +48,20 @@ class Basilisk:
         self.score = score
     
     def setHighScore(self, highScore):
-        self.high_score = highScore
+        self.highScore = highScore
 
+    def getMouthDirection(self):
+        return self.mouth.direction
+
+    def setMouthDirection(self, mouthDirection):
+        if mouthDirection == "left":
+            self.moveLeftwards()
+        elif mouthDirection == "right":
+            self.moveRightwards()
+        elif mouthDirection == "up":
+            self.moveUpwards()
+        else:
+            self.moveDownwards()
 
     def moveUpwards(self):
         gifUp = "model/resources/up.gif"
@@ -89,6 +113,19 @@ class Basilisk:
         oneBodyBlock.penup()
         self.body.append(oneBodyBlock)
     
+    def getBodyPosInListOfDic(self):
+        if len(self.body) > 0:
+            allBlockskPos = []
+            for i in range(0, len(self.body)):
+                x = self.body[i].xcor()
+                y = self.body[i].ycor()
+                allBlockskPos.append({"bodyBlock" + str(i) : {'x': x, 'y': y}})
+
+            return allBlockskPos
+
+    def setBodyBlockPos(self, i, x, y):
+        self.body[i].goto(x,y)
+
     #Wird noch verbessert
     def basiliskPoisoned(self):
         if len(self.body) > 0:
