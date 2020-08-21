@@ -30,10 +30,13 @@ except:
     highScoreList = [0,0,0,0,0]
 
 rootWindow = tk.Tk()
+rootWindow.title("Snake Game")
+rootWindow.configure(background='green')
+logo = tk.PhotoImage(file="model/resources/Logo.gif")
 subWindowForGamefiled = tk.Canvas(rootWindow, width=580, height=580)
 subWindowForBestList = tk.Canvas(rootWindow, width=200, height=550)
-subWindowForGamefiled.pack(side = tk.LEFT)
-subWindowForBestList.pack(side = tk.TOP)
+#subWindowForGamefiled.pack(side = tk.LEFT)
+#subWindowForBestList.pack(side = tk.TOP)
 
 headlineContent = "Score: 0 High Score: 0"
 headlineForBestListContent = "Best List:"
@@ -159,12 +162,60 @@ def load(): #Diese Funktion wird nur einmal vom Hauptmenü aufgerufen. Das Butto
     
     os.remove("S:/git/Basilisk/lastGameData.txt")
 
-if __name__ == "__main__":
+def onePlayer():
+    widget_list = all_children(rootWindow)
+    for item in widget_list:
+        item.pack_forget()
+        
+    subWindowForGamefiled.pack(side = tk.LEFT)
+    subWindowForBestList.pack(side = tk.TOP)
     tk.Button(master = rootWindow, text = "Exit", command = exit , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(side = tk.RIGHT)
     tk.Button(master = rootWindow, text = "save", command = save , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(side = tk.LEFT)
     tk.Button(master = rootWindow, text = "pause", command = pause, bg='springgreen4' , activebackground = 'green', fg = 'white').pack(side = tk.RIGHT)
-    tk.Button(master = rootWindow, text = "load", command = load, bg='springgreen4' , activebackground = 'green', fg = 'white').pack(side = tk.LEFT)
+    tk.Button(master = rootWindow, text = "back to Menu", command = backToMenu, bg='springgreen4' , activebackground = 'green', fg = 'white').pack(side = tk.LEFT)
 
+def LoadMenu():
+    widget_list = all_children(rootWindow)
+    for item in widget_list:
+        item.pack_forget()
+        
+    subWindowForGamefiled.pack(side = tk.LEFT)
+    subWindowForBestList.pack(side = tk.TOP)
+    tk.Button(master = rootWindow, text = "Exit", command = exit , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(side = tk.RIGHT)
+    tk.Button(master = rootWindow, text = "save", command = save , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(side = tk.LEFT)
+    tk.Button(master = rootWindow, text = "pause", command = pause, bg='springgreen4' , activebackground = 'green', fg = 'white').pack(side = tk.RIGHT)
+    tk.Button(master = rootWindow, text = "back to Menu", command = backToMenu, bg='springgreen4' , activebackground = 'green', fg = 'white').pack(side = tk.LEFT)
+    load()
+
+def backToMenu():
+    gameOver()
+    widget_list = all_children(rootWindow)
+    for item in widget_list:
+        item.pack_forget()
+    tk.Label(rootWindow, compound = tk.CENTER,text="             Welcome to Snake Game           ",fg="white",bg= "green", font=("Helvetica", 20)).pack(side="top")
+    tk.Label(rootWindow, compound = tk.CENTER,text="", image=logo,bg= "green").pack(side="top")
+    tk.Button(master = rootWindow, text = "            START            ", command = onePlayer , bg='springgreen4' , activebackground = 'green', fg = 'white').pack()
+    tk.Button(master = rootWindow, text = "Load last saved Game", command = LoadMenu , bg='springgreen4' , activebackground = 'green', fg = 'white').pack()
+    tk.Button(master = rootWindow, text = "              EXIT             ", command = exit , bg='springgreen4' , activebackground = 'green', fg = 'white').pack()
+    tk.Label(rootWindow, compound = tk.CENTER,text=" ",fg="white",bg= "green", font=("Helvetica", 30)).pack()
+        
+def all_children (rootWindow) :
+    _list = rootWindow.winfo_children()
+
+    for item in _list :
+        if item.winfo_children() :
+            _list.extend(item.winfo_children())
+
+    return _list
+
+if __name__ == "__main__":
+    tk.Label(rootWindow, compound = tk.CENTER,text="             Welcome to Snake Game           ",fg="white",bg= "green", font=("Helvetica", 20)).pack(side="top")
+    tk.Label(rootWindow, compound = tk.CENTER,text="", image=logo,bg= "green").pack(side="top")
+    tk.Button(master = rootWindow, text = "            START            ", command = onePlayer , bg='springgreen4' , activebackground = 'green', fg = 'white').pack()
+    tk.Button(master = rootWindow, text = "Load last saved Game", command = LoadMenu , bg='springgreen4' , activebackground = 'green', fg = 'white').pack()
+    tk.Button(master = rootWindow, text = "              EXIT             ", command = exit , bg='springgreen4' , activebackground = 'green', fg = 'white').pack()
+    tk.Label(rootWindow, compound = tk.CENTER,text=" ",fg="white",bg= "green", font=("Helvetica", 30)).pack()
+    
     myGameField.gameListenToPresskey(basilisk)
 
     basilisk.setHighScore(highScoreList[4])
