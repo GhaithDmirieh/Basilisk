@@ -10,6 +10,7 @@ from model.basilisk import Basilisk
 from model.object import Object
 from model.gamefield import Gamefield
 from model.headline import Headline
+from tkinter import messagebox
 
 highScoreList = []
 
@@ -141,26 +142,32 @@ def save():
 
 
 def load(): #Diese Funktion wird nur einmal vom Hauptmenü aufgerufen. Das Button ist nur ein Test
-    getReady()
-
-    with open('lastGameData.txt') as jFile:
-        data = json.load(jFile)
     
-    basilisk.setMouthPos(data['mouth']['x'], data['mouth']['y'])
-    poison.setPos(data['poison']['x'], data['poison']['y'])
-    apple.setPos(data['apple']['x'], data['apple']['y'])
-    basilisk.setMouthDirection(data['dir']['direction'])
-    basilisk.setScore(data['scores']['score'])
-    basilisk.setHighScore(data['scores']['highScore'])
-    headlineForGame.writeNewHeadline(basilisk.getScore(), basilisk.getHighScore())
-
-    for i in range(0, len(data['body'])):
-        x = data['body'][i]['bodyBlock' + str(i)]["x"]
-        y = data['body'][i]['bodyBlock' + str(i)]['y']
-        basilisk.basiliskFeeded(myGameField.getRootWindow() ,gifBody)
-        basilisk.setBodyBlockPos(i, x, y)
     
-    os.remove("S:/git/Basilisk/lastGameData.txt")
+
+    try:
+        with open('lastGameData.txt') as jFile:
+            data = json.load(jFile)
+        getReady()
+    
+        basilisk.setMouthPos(data['mouth']['x'], data['mouth']['y'])
+        poison.setPos(data['poison']['x'], data['poison']['y'])
+        apple.setPos(data['apple']['x'], data['apple']['y'])
+        basilisk.setMouthDirection(data['dir']['direction'])
+        basilisk.setScore(data['scores']['score'])
+        basilisk.setHighScore(data['scores']['highScore'])
+        headlineForGame.writeNewHeadline(basilisk.getScore(), basilisk.getHighScore())
+
+        for i in range(0, len(data['body'])):
+            x = data['body'][i]['bodyBlock' + str(i)]["x"]
+            y = data['body'][i]['bodyBlock' + str(i)]['y']
+            basilisk.basiliskFeeded(myGameField.getRootWindow() ,gifBody)
+            basilisk.setBodyBlockPos(i, x, y)
+    
+        os.remove("S:/git/Basilisk/lastGameData.txt")
+    except:
+        messagebox.showinfo("Error", "There is no saved game")
+
 
 def onePlayer():
     widget_list = all_children(rootWindow)
