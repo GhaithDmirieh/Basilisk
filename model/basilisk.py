@@ -17,8 +17,14 @@ class Basilisk:
         self.mouth.penup()
         
         self.deadFromPoison = False
-
+        self.tempScore = 1
         self.body = []
+
+    def getTempScore(self):
+        return self.tempScore
+    
+    def setTempScore(self, tempScore):
+        self.tempScore = tempScore
 
     def getBodyLen(self):
         return len(self.body)

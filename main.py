@@ -99,6 +99,10 @@ def getReady():
         line.clear()
 
 def gameOver():
+    for itemOfHighScoreList in highScoreList:
+        if basilisk.getScore() > itemOfHighScoreList and basilisk.getScore() < basilisk.getHighScore():
+            basilisk.setTempScore(basilisk.getScore())
+
     headlineForGame.writeHeadlineForGameOver()
     play()
     time.sleep(1)
@@ -112,11 +116,26 @@ def gameOver():
     poison.setPos(0,-100)
 
 def saveHighScoreInFile():
+        if basilisk.getTempScore() > 1 and basilisk.getTempScore() not in highScoreList:
+            highScoreList.append(basilisk.getTempScore())
+            highScoreList [:] = sorted(highScoreList)
+            basilisk.setTempScore(1)
+            if len(highScoreList) == 6:
+                del(highScoreList[0])
+                temp0 = "Best List:\n {} --> {}\n {} --> {}\n {} --> {}\n {} --> {}\n {} --> {}".format(1, highScoreList[4], 2, highScoreList[3], 3, highScoreList[2], 4, highScoreList[1], 5, highScoreList[0])
+                headlineForBestList.writeNewHeadlineForBestList(temp0)
+                
+                file0 = open("highScoreList.txt", "w")
+                for number in highScoreList:
+                    file0.write("{},".format(str(number)))
+                file0.close()
+        
         if basilisk.getHighScore() in highScoreList:
             return
-        else: # Erweitere die Liste mit einem Element dann sortiere sie und lösche das Element mit dem niedrigsten Wert
+        
+        else : #Erweitere die Liste mit einem Element dann sortiere sie und lösche das Element mit dem niedrigsten Wert
             highScoreList.append(basilisk.getHighScore())
-            sorted(highScoreList)
+            highScoreList [:] = sorted(highScoreList)
             if len(highScoreList) == 6:
                 del(highScoreList[0])
                 temp = "Best List:\n {} --> {}\n {} --> {}\n {} --> {}\n {} --> {}\n {} --> {}".format(1, highScoreList[4], 2, highScoreList[3], 3, highScoreList[2], 4, highScoreList[1], 5, highScoreList[0])
@@ -266,7 +285,7 @@ if __name__ == "__main__":
             basilisk.setSpeed(basilisk.getSpeed() - 0.001)
             basilisk.setScore(basilisk.getScore() + 10)
             headlineForGame.writeNewHeadline(basilisk.getScore(), basilisk.getHighScore())
-
+            
             if basilisk.getScore() > basilisk.getHighScore():
                 basilisk.setHighScore(basilisk.getScore())
                 headlineForGame.writeNewHeadline(basilisk.getScore(), basilisk.getHighScore())
