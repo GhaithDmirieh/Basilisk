@@ -135,19 +135,22 @@ def save():
     data['mouth'] = {'x': basilisk.getXPos(), 'y': basilisk.getYPos()}
     data['apple'] = {'x': apple.getXPos(), 'y': apple.getYPos()}
     data['poison'] = {'x': poison.getXPos(), 'y': poison.getYPos()}
-    data['body'] = basilisk.getBodyPosInListOfDic()
     data['dir'] = {'direction': basilisk.getMouthDirection()}
     data['scores'] = {'score': basilisk.getScore(), 'highScore': basilisk.getHighScore()}
     data['speed'] = {'Speed': basilisk.getSpeed()}
+    if basilisk.getBodyLen() > 0:
+        data['body'] = basilisk.getBodyPosInListOfDic()
 
     with open('lastGameData.txt', 'w') as dataFile:
         json.dump(data, dataFile)
 
 
 def load(): #Diese Funktion wird nur einmal vom Hauptmenü aufgerufen.
+    data = {}
     try:
         with open('lastGameData.txt') as jFile:
-            data = json.load(jFile)
+            dataFromJson = json.load(jFile)
+            data = dataFromJson
             
     except:
         messagebox.showinfo("Error", "There is no saved game")
@@ -164,12 +167,13 @@ def load(): #Diese Funktion wird nur einmal vom Hauptmenü aufgerufen.
     basilisk.setSpeed(data['speed']['Speed'])
     headlineForGame.writeNewHeadline(basilisk.getScore(), basilisk.getHighScore())
 
-    for i in range(0, len(data['body'])):
-        x = data['body'][i]['bodyBlock' + str(i)]["x"]
-        y = data['body'][i]['bodyBlock' + str(i)]['y']
-        basilisk.basiliskFeeded(myGameField.getRootWindow() ,gifBody)
-        basilisk.setBodyBlockPos(i, x, y)
-    
+    if 'body' in data:
+        for i in range(0, len(data['body'])):
+            x = data['body'][i]['bodyBlock' + str(i)]["x"]
+            y = data['body'][i]['bodyBlock' + str(i)]['y']
+            basilisk.basiliskFeeded(myGameField.getRootWindow() ,gifBody)
+            basilisk.setBodyBlockPos(i, x, y)
+
     os.remove("S:/git/Basilisk/lastGameData.txt")
 
 
