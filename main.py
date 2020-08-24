@@ -10,6 +10,7 @@ from model.object import Object
 from model.gamefield import Gamefield
 from model.headline import Headline
 from tkinter import messagebox
+from winsound import *
 
 highScoreList = []
 
@@ -100,6 +101,7 @@ def getReady():
 
 def gameOver():
     headlineForGame.writeHeadlineForGameOver()
+    play()
     time.sleep(1)
     basilisk.basiliskGoHome()
     basilisk.basiliskDeleteBody()
@@ -215,6 +217,9 @@ def all_children (rootWindow) :
             _list.extend(item.winfo_children())
 
     return _list
+
+def play():
+    return PlaySound("model/resources/gameover.wav", SND_FILENAME)
 
 if __name__ == "__main__":
     tk.Label(rootWindow, compound = tk.CENTER,text="             Welcome to Snake Game           ",fg="white",bg= "green", font=("Helvetica", 20)).pack(side="top")
