@@ -31,12 +31,11 @@ except:
 
 rootWindow = tk.Tk()
 rootWindow.resizable(0,0)
-rootWindow.title("Snake Game")
+rootWindow.title("Basilisk Game")
 rootWindow.configure(background='green')
 logo = tk.PhotoImage(file="model/resources/Logo.gif")
 subWindowForGamefiled = tk.Canvas(rootWindow, width=580, height=580)
-subWindowForBestList = tk.Canvas(rootWindow, width=200, height=550)
-
+subWindowForBestList = tk.Canvas(rootWindow, width=200, height=480)
 
 headlineContent = "Score: 0 High Score: 0"
 headlineForBestListContent = "Best List:"
@@ -137,28 +136,30 @@ def save():
     data['body'] = basilisk.getBodyPosInListOfDic()
     data['dir'] = {'direction': basilisk.getMouthDirection()}
     data['scores'] = {'score': basilisk.getScore(), 'highScore': basilisk.getHighScore()}
+    data['speed'] = {'Speed': basilisk.getSpeed()}
 
     with open('lastGameData.txt', 'w') as dataFile:
         json.dump(data, dataFile)
 
 
 def load(): #Diese Funktion wird nur einmal vom Hauptmenü aufgerufen.
-
     try:
         with open('lastGameData.txt') as jFile:
             data = json.load(jFile)
-            #data = dataFromJson
+            
     except:
         messagebox.showinfo("Error", "There is no saved game")
         return
     
     getReady()
+
     basilisk.setMouthPos(data['mouth']['x'], data['mouth']['y'])
     poison.setPos(data['poison']['x'], data['poison']['y'])
     apple.setPos(data['apple']['x'], data['apple']['y'])
     basilisk.setMouthDirection(data['dir']['direction'])
     basilisk.setScore(data['scores']['score'])
     basilisk.setHighScore(data['scores']['highScore'])
+    basilisk.setSpeed(data['speed']['Speed'])
     headlineForGame.writeNewHeadline(basilisk.getScore(), basilisk.getHighScore())
 
     for i in range(0, len(data['body'])):
@@ -177,11 +178,11 @@ def onePlayer():
         
     subWindowForGamefiled.pack(side = tk.LEFT)
     subWindowForBestList.pack(side = tk.TOP)
-    tk.Button(master = rootWindow, text = "pause", command = pause, bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
-    tk.Button(master = rootWindow, text = "save", command = save , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
+    tk.Button(master = rootWindow, text = "Pause", command = pause, bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
+    tk.Button(master = rootWindow, text = "Save", command = save , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
     tk.Button(master = rootWindow, text = "Back to Menu", command = backToMenu, bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
     tk.Button(master = rootWindow, text = "Exit", command = exit , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
-
+    
 def LoadMenu():
     widget_list = all_children(rootWindow)
     for item in widget_list:
@@ -206,7 +207,8 @@ def backToMenu():
     tk.Button(master = rootWindow, text = "Load last Game", command = LoadMenu , bg='springgreen4' , activebackground = 'green', fg = 'white').pack()
     tk.Button(master = rootWindow, text = "           Exit          ", command = exit , bg='springgreen4' , activebackground = 'green', fg = 'white').pack()
     tk.Label(rootWindow, compound = tk.CENTER,text=" ",fg="white",bg= "green", font=("Helvetica", 30)).pack()
-        
+    
+
 def all_children (rootWindow) :
     _list = rootWindow.winfo_children()
 
@@ -228,6 +230,7 @@ if __name__ == "__main__":
 
     basilisk.setHighScore(highScoreList[4])
     headlineForGame.writeNewHeadline(basilisk.getScore(),highScoreList[4])
+
 
     while True:
         myGameField.gamefieldUpdate()
