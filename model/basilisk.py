@@ -138,10 +138,21 @@ class Basilisk:
     def basiliskLives(self):
         self.deadFromPoison = False
 
+    def basiliskPushTheWall(self):
+        if self.mouth.xcor() > 290:
+            self.mouth.setx (self.mouth.xcor() -580)
+        elif self.mouth.xcor() < -290:
+            self.mouth.setx (self.mouth.xcor() +580)
+        elif self.mouth.ycor() > 290:
+            self.mouth.sety (self.mouth.ycor() -580)
+        elif self.mouth.ycor() < -290:
+            self.mouth.sety (self.mouth.ycor() +580)
+            
     def basiliskIsDead(self):
-        basiliskPushTheWall = self.mouth.xcor() > 290 or self.mouth.xcor() < -290 or self.mouth.ycor() > 290 or self.mouth.ycor() < -290
+        #basiliskPushTheWall = self.mouth.xcor() > 290 or self.mouth.xcor() < -290 or self.mouth.ycor() > 290 or self.mouth.ycor() < -290
         
-        if basiliskPushTheWall or self.deadFromPoison:
+        #if basiliskPushTheWall or
+        if self.deadFromPoison:
             return True
         
         for item in self.body:
