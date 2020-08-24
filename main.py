@@ -239,6 +239,8 @@ if __name__ == "__main__":
             basilisk.setScore(basilisk.getScore() - 10)
             headlineForGame.writeNewHeadline(basilisk.getScore(), basilisk.getHighScore())
             
+        basilisk.basiliskPushTheWall()
+        
         if basilisk.basiliskIsDead():
             gameOver()
             basilisk.basiliskLives()
