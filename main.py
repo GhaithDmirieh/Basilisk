@@ -21,8 +21,8 @@ try:
     tempList =  [item for item in fileContentInString.split(',')]
     tempList.pop()
 
-    for i in range(0, len(tempList)):
-        tempList[i] = int(tempList[i])
+    for tempItem in range(0, len(tempList)):
+        tempList[tempItem] = int(tempList[tempItem])
 
     highScoreList = copy.deepcopy(tempList)
 
