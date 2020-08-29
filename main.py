@@ -10,7 +10,7 @@ from model.object import Object
 from model.gamefield import Gamefield
 from model.headline import Headline
 from tkinter import messagebox
-from winsound import *
+from winsound import PlaySound, SND_FILENAME
 
 highScoreList = []
 
@@ -115,7 +115,7 @@ def gameOver():
     apple.setPos(0,100)
     poison.setPos(0,-100)
 
-def saveHighScoreInFile():
+def saveHighScoreInFile(): #Verschönern falls am Ende Zeit übrig bleibt
         if basilisk.getTempScore() > 1 and basilisk.getTempScore() not in highScoreList:
             highScoreList.append(basilisk.getTempScore())
             highScoreList [:] = sorted(highScoreList)
