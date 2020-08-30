@@ -230,7 +230,7 @@ def backToMenu():
     widget_list = all_children(rootWindow)
     for item in widget_list:
         item.pack_forget()
-    tk.Label(rootWindow, compound = tk.CENTER,text="             Welcome to Snake Game           \nHigh Score: {}".format(highScoreList[4]),fg="white",bg= "green", font=("Helvetica", 20)).pack(side="top")
+    tk.Label(rootWindow, compound = tk.CENTER,text="             Welcome to Basilisk Game           \nHigh Score: {}".format(highScoreList[4]),fg="white",bg= "green", font=("Helvetica", 20)).pack(side="top")
     tk.Label(rootWindow, compound = tk.CENTER,text="", image=logo,bg= "green").pack(side="top")
     tk.Button(master = rootWindow, text = "One Player Mode", command = startForOnePlayer , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
     tk.Button(master = rootWindow, text = "Two Player Mode", command = startForTwoPlayer , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)    
@@ -410,7 +410,7 @@ def twoPlayer():
 
 
 if __name__ == "__main__":
-    tk.Label(rootWindow, compound = tk.CENTER,text="             Welcome to Snake Game           \nHigh Score: {}".format(highScoreList[4]),fg="white",bg= "green", font=("Helvetica", 20)).pack(side="top")
+    tk.Label(rootWindow, compound = tk.CENTER,text="             Welcome to Basilisk Game           \nHigh Score: {}".format(highScoreList[4]),fg="white",bg= "green", font=("Helvetica", 20)).pack(side="top")
     tk.Label(rootWindow, compound = tk.CENTER,text="", image=logo,bg= "green").pack(side="top")
     tk.Button(master = rootWindow, text = "One Player Mode", command = startForOnePlayer , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
     tk.Button(master = rootWindow, text = "Two Player Mode", command = startForTwoPlayer , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
