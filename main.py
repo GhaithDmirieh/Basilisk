@@ -226,7 +226,7 @@ def backToMenu():
     widget_list = all_children(rootWindow)
     for item in widget_list:
         item.pack_forget()
-    tk.Label(rootWindow, compound = tk.CENTER,text="             Welcome to Snake Game           ",fg="white",bg= "green", font=("Helvetica", 20)).pack(side="top")
+    tk.Label(rootWindow, compound = tk.CENTER,text="             Welcome to Snake Game           \nHigh Score: {}".format(basilisk.getHighScore()),fg="white",bg= "green", font=("Helvetica", 20)).pack(side="top")
     tk.Label(rootWindow, compound = tk.CENTER,text="", image=logo,bg= "green").pack(side="top")
     tk.Button(master = rootWindow, text = "         Start          ", command = onePlayer , bg='springgreen4' , activebackground = 'green', fg = 'white').pack()
     tk.Button(master = rootWindow, text = "Load last Game", command = LoadMenu , bg='springgreen4' , activebackground = 'green', fg = 'white').pack()
@@ -247,7 +247,7 @@ def play():
     return PlaySound("model/resources/gameover.wav", SND_FILENAME)
 
 if __name__ == "__main__":
-    tk.Label(rootWindow, compound = tk.CENTER,text="             Welcome to Snake Game           ",fg="white",bg= "green", font=("Helvetica", 20)).pack(side="top")
+    tk.Label(rootWindow, compound = tk.CENTER,text="             Welcome to Snake Game           \nHigh Score: {}".format(basilisk.getHighScore()),fg="white",bg= "green", font=("Helvetica", 20)).pack(side="top")
     tk.Label(rootWindow, compound = tk.CENTER,text="", image=logo,bg= "green").pack(side="top")
     tk.Button(master = rootWindow, text = "         Start          ", command = onePlayer , bg='springgreen4' , activebackground = 'green', fg = 'white').pack()
     tk.Button(master = rootWindow, text = "Load last Game", command = LoadMenu , bg='springgreen4' , activebackground = 'green', fg = 'white').pack()
