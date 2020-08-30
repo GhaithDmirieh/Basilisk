@@ -18,6 +18,13 @@ class Gamefield:
         self.rootWindow.onkeypress(basilisk.moveLeftwards, "Left")
         self.rootWindow.onkeypress(basilisk.moveRightwards, "Right")
     
+    def gameListenToPresskeyForTowPlayer(self, basilisk):
+        self.rootWindow.listen()
+        self.rootWindow.onkeypress(basilisk.moveUpwards, "w")
+        self.rootWindow.onkeypress(basilisk.moveDownwards, "s")
+        self.rootWindow.onkeypress(basilisk.moveLeftwards, "a")
+        self.rootWindow.onkeypress(basilisk.moveRightwards, "d")
+    
     def gamefieldUpdate(self):
         self.rootWindow.update()
     

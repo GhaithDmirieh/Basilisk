@@ -20,6 +20,13 @@ class Basilisk:
         self.tempScore = 1
         self.body = []
 
+
+    def getMouth(self):
+        return self.mouth
+
+    def getBodyList(self):
+        return self.body
+
     def getTempScore(self):
         return self.tempScore
     
@@ -175,6 +182,14 @@ class Basilisk:
     
     def basiliskDeleteBody(self):
         for item in self.body:
-            item.goto(1000, 1000) # Gibt es keine bessere Weise !
+            item.goto(1000, 1000) 
         self.body.clear()
+    
+    def hideMouth(self):
+        self.mouth.hideturtle()
 
+    def isVisible(self):
+        return self.mouth.isvisible()
+    
+    def showMouth(self):
+        self.mouth.showturtle()

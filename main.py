@@ -36,7 +36,7 @@ rootWindow.title("Basilisk Game")
 rootWindow.configure(background='green')
 logo = tk.PhotoImage(file="model/resources/Logo.gif")
 subWindowForGamefiled = tk.Canvas(rootWindow, width=580, height=580)
-subWindowForBestList = tk.Canvas(rootWindow, width=200, height=480)
+subWindowForBestList = tk.Canvas(rootWindow, width=200, height=470)
 
 headlineContent = "Score: 0 High Score: 0"
 headlineForBestListContent = "Best List:"
@@ -50,12 +50,17 @@ gifDown = "model/resources/down.gif"
 gifLeft = "model/resources/left.gif"
 gifRight = "model/resources/right.gif"
 gifBody = "model/resources/body.gif"
+gifBody2 = "model/resources/body2.gif"
 gifPoison = "model/resources/poison.gif"
 
-imageList = [gifApple, gifUp, gifDown, gifLeft, gifRight, gifBody, gifPoison]
+imageList = [gifApple, gifUp, gifDown, gifLeft, gifRight, gifBody, gifBody2, gifPoison]
 
 for image in imageList:
     myGameField.addShape(image)
+
+basilisk2 = Basilisk(myGameField.getRootWindow(), gifUp)
+basilisk2.setMouthPos(100, 0)
+
 
 basilisk = Basilisk(myGameField.getRootWindow(), gifUp)
 apple = Object(myGameField.getRootWindow(), gifApple)
@@ -68,8 +73,8 @@ headlineForGame.writeNewHeadline(basilisk.getScore(), basilisk.getHighScore())
 headlineForBestList = Headline(bestListField.getRootWindow(), headlineForBestListContent, 0, 0)
 
 tt = "Best List:\n {} --> {}\n {} --> {}\n {} --> {}\n {} --> {}\n {} --> {}".format(1, highScoreList[4], 2, highScoreList[3], 3, highScoreList[2], 4, highScoreList[1], 5, highScoreList[0])
-
 headlineForBestList.writeNewHeadlineForBestList(tt)
+
 
 
 def pause():
@@ -114,6 +119,17 @@ def gameOver():
     saveHighScoreInFile()
     apple.setPos(0,100)
     poison.setPos(0,-100)
+
+def gameOverForFirstBasiliskInTowPlayerMode():
+    basilisk.basiliskDeleteBody()
+    basilisk.basiliskGoHome()
+    basilisk.setSpeed(0.1)
+    
+
+def gameOverForSecondBasiliskInTowPlayerMode():
+    basilisk2.basiliskDeleteBody()
+    basilisk2.basiliskGoHome()
+    basilisk2.setSpeed(0.1)
 
 def saveHighScoreInFile(): #Verschönern falls am Ende Zeit übrig bleibt
         if basilisk.getTempScore() > 1 and basilisk.getTempScore() not in highScoreList:
@@ -173,6 +189,7 @@ def load(): #Diese Funktion wird nur einmal vom Hauptmenü aufgerufen.
             
     except:
         messagebox.showinfo("Error", "There is no saved game")
+        startForOnePlayer()
         return
     
     getReady()
@@ -194,20 +211,7 @@ def load(): #Diese Funktion wird nur einmal vom Hauptmenü aufgerufen.
             basilisk.setBodyBlockPos(i, x, y)
 
     os.remove("S:/git/Basilisk/lastGameData.txt")
-
-
-def onePlayer():
-    widget_list = all_children(rootWindow)
-    for item in widget_list:
-        item.pack_forget()
         
-    subWindowForGamefiled.pack(side = tk.LEFT)
-    subWindowForBestList.pack(side = tk.TOP)
-    tk.Button(master = rootWindow, text = "Pause", command = pause, bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
-    tk.Button(master = rootWindow, text = "Save", command = save , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
-    tk.Button(master = rootWindow, text = "Back to Menu", command = backToMenu, bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
-    tk.Button(master = rootWindow, text = "Exit", command = exit , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
-    
 def LoadMenu():
     widget_list = all_children(rootWindow)
     for item in widget_list:
@@ -226,13 +230,12 @@ def backToMenu():
     widget_list = all_children(rootWindow)
     for item in widget_list:
         item.pack_forget()
-    tk.Label(rootWindow, compound = tk.CENTER,text="             Welcome to Snake Game           \nHigh Score: {}".format(basilisk.getHighScore()),fg="white",bg= "green", font=("Helvetica", 20)).pack(side="top")
+    tk.Label(rootWindow, compound = tk.CENTER,text="             Welcome to Snake Game           \nHigh Score: {}".format(highScoreList[4]),fg="white",bg= "green", font=("Helvetica", 20)).pack(side="top")
     tk.Label(rootWindow, compound = tk.CENTER,text="", image=logo,bg= "green").pack(side="top")
-    tk.Button(master = rootWindow, text = "         Start          ", command = onePlayer , bg='springgreen4' , activebackground = 'green', fg = 'white').pack()
-    tk.Button(master = rootWindow, text = "Load last Game", command = LoadMenu , bg='springgreen4' , activebackground = 'green', fg = 'white').pack()
-    tk.Button(master = rootWindow, text = "           Exit          ", command = exit , bg='springgreen4' , activebackground = 'green', fg = 'white').pack()
-    tk.Label(rootWindow, compound = tk.CENTER,text=" ",fg="white",bg= "green", font=("Helvetica", 30)).pack()
-    
+    tk.Button(master = rootWindow, text = "One Player Mode", command = startForOnePlayer , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
+    tk.Button(master = rootWindow, text = "Two Player Mode", command = startForTwoPlayer , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)    
+    tk.Button(master = rootWindow, text = "Load last Game", command = LoadMenu , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
+    tk.Button(master = rootWindow, text = "Exit", command = exit , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
 
 def all_children (rootWindow) :
     _list = rootWindow.winfo_children()
@@ -246,52 +249,179 @@ def all_children (rootWindow) :
 def play():
     return PlaySound("model/resources/gameover.wav", SND_FILENAME)
 
-if __name__ == "__main__":
-    tk.Label(rootWindow, compound = tk.CENTER,text="             Welcome to Snake Game           \nHigh Score: {}".format(basilisk.getHighScore()),fg="white",bg= "green", font=("Helvetica", 20)).pack(side="top")
-    tk.Label(rootWindow, compound = tk.CENTER,text="", image=logo,bg= "green").pack(side="top")
-    tk.Button(master = rootWindow, text = "         Start          ", command = onePlayer , bg='springgreen4' , activebackground = 'green', fg = 'white').pack()
-    tk.Button(master = rootWindow, text = "Load last Game", command = LoadMenu , bg='springgreen4' , activebackground = 'green', fg = 'white').pack()
-    tk.Button(master = rootWindow, text = "           Exit          ", command = exit , bg='springgreen4' , activebackground = 'green', fg = 'white').pack()
-    tk.Label(rootWindow, compound = tk.CENTER,text=" ",fg="white",bg= "green", font=("Helvetica", 30)).pack()
-    
-    myGameField.gameListenToPresskey(basilisk)
+def startForOnePlayer():
+    widget_list = all_children(rootWindow)
+    for item in widget_list:
+        item.pack_forget()
+        
+    subWindowForGamefiled.pack(side = tk.LEFT)
+    basilisk2.setMouthPos(1000,1000)
+    basilisk2.hideMouth()
+    subWindowForBestList.pack(side = tk.TOP)
+    tk.Button(master = rootWindow, text = "Pause", command = pause, bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
+    tk.Button(master = rootWindow, text = "Save", command = save , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
+    tk.Button(master = rootWindow, text = "Back to Menu", command = backToMenu, bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
+    tk.Button(master = rootWindow, text = "Exit", command = exit , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
+    while True:
+        myGameField.gamefieldUpdate()
+        onePlayer()
 
-    basilisk.setHighScore(highScoreList[4])
-    headlineForGame.writeNewHeadline(basilisk.getScore(),highScoreList[4])
+def startForTwoPlayer():
 
+    widget_list = all_children(rootWindow)
+    for item in widget_list:
+        item.pack_forget()
+
+    headlineForGame.clearHideline()
+
+    basilisk2.showMouth()
+    subWindowForGamefiled.pack(side = tk.TOP)
+    tk.Button(master = rootWindow, text = "           Exit          ", command = exit , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(side = tk.BOTTOM , fill=tk.BOTH) 
+    tk.Button(master = rootWindow, text = "Pause", command = pause, bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
+    poison.setPos(1000,1000)
+    poison.hideObj()
+
+    apple.randomPos()
+    basilisk.setMouthPos(-60,0)
+    basilisk2.setMouthPos(60,0)
 
     while True:
         myGameField.gamefieldUpdate()
+        twoPlayer()
 
-        if basilisk.basiliskEats(poison.getObj()):
-            basilisk.basiliskPoisoned()
+def basilisk1EatsBasilisk2():
+    for oneBlock in basilisk2.getBodyList():
+        dead = oneBlock.distance(basilisk.getMouth()) < 20
+        if dead:
+            return True
+
+def basilisk2EatsBasilisk1():
+    for oneBlock in basilisk.getBodyList():
+        dead = oneBlock.distance(basilisk2.getMouth()) < 20
+        if dead:
+            return True
+
+def checkIfAppleInBasiliskForTowPlayer():
+    for oneBlock in basilisk2.getBodyList():
+        isIn = oneBlock.distance(apple.getObj()) < 20
+        if isIn:
+            return True
+
+    for oneBlock in basilisk.getBodyList():
+        isIn = oneBlock.distance(apple.getObj()) < 20
+        if isIn:
+            return True
+
+def checkIfAppleInBasiliskForOnePlayer():
+    for oneBlock in basilisk.getBodyList():
+        isIn = oneBlock.distance(apple.getObj()) < 20 or oneBlock.distance(poison.getObj()) < 20
+        if isIn:
+            return True
+
+def onePlayer():
+    if basilisk.basiliskEats(poison.getObj()):
+        basilisk.basiliskPoisoned()
+        poison.randomPos()
+        apple.randomPos()
+
+        if checkIfAppleInBasiliskForOnePlayer():
             poison.randomPos()
             apple.randomPos()
-            basilisk.setSpeed(basilisk.getSpeed() + 0.001)
-            basilisk.setScore(basilisk.getScore() - 10)
-            headlineForGame.writeNewHeadline(basilisk.getScore(), basilisk.getHighScore())
-            
-        basilisk.basiliskPushTheWall()
-        
-        if basilisk.basiliskIsDead():
-            gameOver()
-            basilisk.basiliskLives()
 
-        if basilisk.basiliskEats(apple.getObj()):
-            apple.randomPos() #TODO: Pos darf nicht in Snakes Körper oder Headline stehen
-            poison.randomPos()
-            
-            basilisk.basiliskFeeded(myGameField.getRootWindow() ,gifBody)
-            basilisk.setSpeed(basilisk.getSpeed() - 0.001)
-            basilisk.setScore(basilisk.getScore() + 10)
+        basilisk.setSpeed(basilisk.getSpeed() + 0.001)
+        basilisk.setScore(basilisk.getScore() - 10)
+        headlineForGame.writeNewHeadline(basilisk.getScore(), basilisk.getHighScore())
+        
+    basilisk.basiliskPushTheWall()
+    
+    if basilisk.basiliskIsDead():
+        gameOver()
+        basilisk.basiliskLives()
+
+    if basilisk.basiliskEats(apple.getObj()):
+        apple.randomPos()
+        poison.randomPos()
+        
+        basilisk.basiliskFeeded(myGameField.getRootWindow() ,gifBody)
+        basilisk.setSpeed(basilisk.getSpeed() - 0.001)
+        basilisk.setScore(basilisk.getScore() + 10)
+        headlineForGame.writeNewHeadline(basilisk.getScore(), basilisk.getHighScore())
+        
+        if basilisk.getScore() > basilisk.getHighScore():
+            basilisk.setHighScore(basilisk.getScore())
             headlineForGame.writeNewHeadline(basilisk.getScore(), basilisk.getHighScore())
             
-            if basilisk.getScore() > basilisk.getHighScore():
-                basilisk.setHighScore(basilisk.getScore())
-                headlineForGame.writeNewHeadline(basilisk.getScore(), basilisk.getHighScore())
+    basilisk.bodyFollowMouth()
+    basilisk.move()
+    time.sleep(basilisk.getSpeed())
+
+def twoPlayer():
+    basilisk.basiliskPushTheWall()
+    basilisk2.basiliskPushTheWall()
+    
+    if basilisk.basiliskIsDead() or basilisk1EatsBasilisk2():
+        gameOverForFirstBasiliskInTowPlayerMode()
+        basilisk.basiliskLives()
+
+    if basilisk2.basiliskIsDead() or basilisk2EatsBasilisk1():
+        gameOverForSecondBasiliskInTowPlayerMode()
+        basilisk2.basiliskLives()
+    
+    if basilisk.getMouth().distance(basilisk2.getMouth()) < 20 or basilisk2.getMouth().distance(basilisk.getMouth()) < 20:
+        gameOverForFirstBasiliskInTowPlayerMode()
+        gameOverForSecondBasiliskInTowPlayerMode()
+        
+        basilisk.basiliskLives()
+        basilisk.setMouthPos(-60,0)
+
+        basilisk2.basiliskLives()
+        basilisk2.setMouthPos(60,0)
+
+
+    if basilisk.basiliskEats(apple.getObj()):
+        apple.randomPos()
+        
+        if checkIfAppleInBasiliskForTowPlayer():
+            apple.randomPos()
+        
+        for oneBlock in basilisk.getBodyList():
+            if apple.getObj().distance(oneBlock) < 20 :
+                apple.randomPos()
                 
-        basilisk.bodyFollowMouth()
-        basilisk.move()
-        time.sleep(basilisk.getSpeed())
+        basilisk.basiliskFeeded(myGameField.getRootWindow() ,gifBody)
+        
+
+    if basilisk2.basiliskEats(apple.getObj()):
+        apple.randomPos() 
+        
+        for oneBlock in basilisk2.getBodyList():
+            if apple.getObj().distance(oneBlock) < 20 :
+                apple.randomPos()
+                
+        basilisk2.basiliskFeeded(myGameField.getRootWindow() ,gifBody2)
+        
+    basilisk.bodyFollowMouth()
+    basilisk.move()
+    basilisk2.bodyFollowMouth()
+    basilisk2.move()
+    time.sleep(0.1)
+
+
+if __name__ == "__main__":
+    tk.Label(rootWindow, compound = tk.CENTER,text="             Welcome to Snake Game           \nHigh Score: {}".format(highScoreList[4]),fg="white",bg= "green", font=("Helvetica", 20)).pack(side="top")
+    tk.Label(rootWindow, compound = tk.CENTER,text="", image=logo,bg= "green").pack(side="top")
+    tk.Button(master = rootWindow, text = "One Player Mode", command = startForOnePlayer , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
+    tk.Button(master = rootWindow, text = "Two Player Mode", command = startForTwoPlayer , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
+    tk.Button(master = rootWindow, text = "Load last Game", command = LoadMenu , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
+    tk.Button(master = rootWindow, text = "Exit", command = exit , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
+   
+    
+    myGameField.gameListenToPresskey(basilisk)
+    
+    if basilisk2.isVisible():
+        myGameField.gameListenToPresskeyForTowPlayer(basilisk2)
+
+    basilisk.setHighScore(highScoreList[4])
+    headlineForGame.writeNewHeadline(basilisk.getScore(),highScoreList[4])
 
     myGameField.gamefieldMainloop()

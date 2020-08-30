@@ -12,6 +12,9 @@ class Headline:
         self.headline.goto(x, y)
         self.headline.write(content, align= "center", font=("Courier", 18 ,"normal"))
     
+    def setPos(self, x, y):
+        self.headline.goto(x,y)
+
     def writeHeadlineForGameOver(self):
         self.headline.clear()
         self.headline.write("Game Over", align= "center", font=("Courier", 18 ,"normal"))
@@ -20,7 +23,9 @@ class Headline:
         self.headline.clear()
         self.headline.write("Score:{} High Score: {}".format(score, newScore), align ="center", font=("Courier", 18 ,"normal"))
     
+    def clearHideline(self):
+        self.headline.clear()
+
     def writeNewHeadlineForBestList(self, content):
         self.headline.clear()
         self.headline.write(content , align ="center", font=("Courier", 18 ,"normal"))
-#"besten Liste\n{}".format(number)
