@@ -358,6 +358,8 @@ def onePlayer():
 def twoPlayer():
     basilisk.basiliskPushTheWall()
     basilisk2.basiliskPushTheWall()
+
+
     
     if basilisk.basiliskIsDead() or basilisk1EatsBasilisk2():
         gameOverForFirstBasiliskInTowPlayerMode()
@@ -367,7 +369,7 @@ def twoPlayer():
         gameOverForSecondBasiliskInTowPlayerMode()
         basilisk2.basiliskLives()
     
-    if basilisk.getMouth().distance(basilisk2.getMouth()) < 20 or basilisk2.getMouth().distance(basilisk.getMouth()) < 20:
+    if basilisk.getMouth().distance(basilisk2.getMouth()) < 15 or basilisk2.getMouth().distance(basilisk.getMouth()) < 15:
         gameOverForFirstBasiliskInTowPlayerMode()
         gameOverForSecondBasiliskInTowPlayerMode()
         
