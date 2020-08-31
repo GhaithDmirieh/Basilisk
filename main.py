@@ -38,7 +38,7 @@ rootWindow.configure(background='green')
 logo = tk.PhotoImage(file="model/resources/Logo.gif")
 
 subWindowForGamefiled = tk.Canvas(rootWindow, width=580, height=580)
-subWindowForBestList = tk.Canvas(rootWindow, width=200, height=470)
+subWindowForBestList = tk.Canvas(rootWindow, width=200, height=450)
 
 headlineContent = "Score: 0 High Score: 0"
 headlineForBestListContent = "Best List:"
