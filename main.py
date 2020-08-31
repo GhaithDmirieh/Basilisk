@@ -34,7 +34,9 @@ rootWindow = tk.Tk()
 rootWindow.resizable(0,0)
 rootWindow.title("Basilisk Game")
 rootWindow.configure(background='green')
+
 logo = tk.PhotoImage(file="model/resources/Logo.gif")
+
 subWindowForGamefiled = tk.Canvas(rootWindow, width=580, height=580)
 subWindowForBestList = tk.Canvas(rootWindow, width=200, height=470)
 
@@ -162,7 +164,7 @@ def saveHighScoreInFile(): #Verschönern falls am Ende Zeit übrig bleibt
                 fileR.close()
 
 def exit():
-    rootWindow.destroy() #TODO: go to startmenü statt spiel verlassen
+    rootWindow.destroy()
 
 
 def save():
@@ -181,6 +183,7 @@ def save():
 
 
 def load(): #Diese Funktion wird nur einmal vom Hauptmenü aufgerufen.
+
     data = {}
     try:
         with open('lastGameData.txt') as jFile:
@@ -211,12 +214,14 @@ def load(): #Diese Funktion wird nur einmal vom Hauptmenü aufgerufen.
             basilisk.setBodyBlockPos(i, x, y)
 
     os.remove("S:/git/Basilisk/lastGameData.txt")
+
+    
         
 def LoadMenu():
     widget_list = all_children(rootWindow)
     for item in widget_list:
         item.pack_forget()
-        
+
     subWindowForGamefiled.pack(side = tk.LEFT)
     subWindowForBestList.pack(side = tk.TOP)
     tk.Button(master = rootWindow, text = "Pause", command = pause, bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
@@ -262,9 +267,13 @@ def startForOnePlayer():
     tk.Button(master = rootWindow, text = "Save", command = save , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
     tk.Button(master = rootWindow, text = "Back to Menu", command = backToMenu, bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
     tk.Button(master = rootWindow, text = "Exit", command = exit , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
+    
     while True:
-        myGameField.gamefieldUpdate()
-        onePlayer()
+        try:
+            myGameField.gamefieldUpdate()
+            onePlayer()
+        except:
+            return
 
 def startForTwoPlayer():
 
@@ -286,8 +295,11 @@ def startForTwoPlayer():
     basilisk2.setMouthPos(60,0)
 
     while True:
-        myGameField.gamefieldUpdate()
-        twoPlayer()
+        try:
+            myGameField.gamefieldUpdate()
+            twoPlayer()
+        except:
+            return
 
 def basilisk1EatsBasilisk2():
     for oneBlock in basilisk2.getBodyList():
@@ -408,7 +420,6 @@ def twoPlayer():
     basilisk2.move()
     time.sleep(0.1)
 
-
 if __name__ == "__main__":
     tk.Label(rootWindow, compound = tk.CENTER,text="             Welcome to Basilisk Game           \nHigh Score: {}".format(highScoreList[4]),fg="white",bg= "green", font=("Helvetica", 20)).pack(side="top")
     tk.Label(rootWindow, compound = tk.CENTER,text="", image=logo,bg= "green").pack(side="top")
@@ -417,9 +428,8 @@ if __name__ == "__main__":
     tk.Button(master = rootWindow, text = "Load last Game", command = LoadMenu , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
     tk.Button(master = rootWindow, text = "Exit", command = exit , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
    
-    
     myGameField.gameListenToPresskey(basilisk)
-    
+
     if basilisk2.isVisible():
         myGameField.gameListenToPresskeyForTowPlayer(basilisk2)
 
