@@ -14,6 +14,7 @@ from winsound import PlaySound, SND_FILENAME
 
 highScoreList = []
 
+# lade HighScores und stelle sie in der Liste bereit.
 try:
     f = open("highScoreList.txt", "r")
     fileContentInString = f.read()
@@ -57,6 +58,7 @@ gifPoison = "model/resources/poison.gif"
 
 imageList = [gifApple, gifUp, gifDown, gifLeft, gifRight, gifBody, gifBody2, gifPoison]
 
+# fügt alle GIFs in einer liste ein und fügt sie als Shapes dem GameField hinzu.
 for image in imageList:
     myGameField.addShape(image)
 
@@ -70,6 +72,7 @@ poison = Object(myGameField.getRootWindow(), gifPoison)
 
 poison.setPos(0, -100)
 
+# headlineForGame ist ein Label in dem Score und HighScore erscheinen sollen.
 headlineForGame = Headline(myGameField.getRootWindow(), headlineContent, 0, 250)
 headlineForGame.writeNewHeadline(basilisk.getScore(), basilisk.getHighScore())
 headlineForBestList = Headline(bestListField.getRootWindow(), headlineForBestListContent, 0, 0)
@@ -77,8 +80,7 @@ headlineForBestList = Headline(bestListField.getRootWindow(), headlineForBestLis
 tt = "Best List:\n {} --> {}\n {} --> {}\n {} --> {}\n {} --> {}\n {} --> {}".format(1, highScoreList[4], 2, highScoreList[3], 3, highScoreList[2], 4, highScoreList[1], 5, highScoreList[0])
 headlineForBestList.writeNewHeadlineForBestList(tt)
 
-
-
+# 5 Sekunden Pause Funktion.
 def pause():
     for i in [ 5, 4, 3, 2, 1 ,0]:
         time.sleep(1)
@@ -87,11 +89,12 @@ def pause():
         line.shape("square")
         line.color("white")
         line.penup()
-        line.hideturtle() # Versteckter Überschrift
+        line.hideturtle() # Versteckte Überschrift
         line.goto(0,0)
         line.write("Waiting for %s seconds" % i , align= "center", font=("Courier", 18 ,"normal"))
         line.clear()
 
+# nach dem Laden der letzten gespeicherten Sitzung kommt getReady Pause von 5 Sekunden.
 def getReady():
     for i in [ 5, 4, 3, 2, 1 ,0]:
         time.sleep(1)
@@ -100,11 +103,12 @@ def getReady():
         line.shape("square")
         line.color("white")
         line.penup()
-        line.hideturtle() # Versteckter Überschrift
+        line.hideturtle() # Versteckte Überschrift
         line.goto(0,0)
         line.write("Get ready %s" % i , align= "center", font=("Courier", 18 ,"normal"))
         line.clear()
 
+# Die Funktion kümmert sich nur um das, was nach dem Beenden geschieht (Alles wieder auf den originalen Stand stellen).
 def gameOver():
     for itemOfHighScoreList in highScoreList:
         if basilisk.getScore() > itemOfHighScoreList and basilisk.getScore() < basilisk.getHighScore():
@@ -122,18 +126,20 @@ def gameOver():
     apple.setPos(0,100)
     poison.setPos(0,-100)
 
-def gameOverForFirstBasiliskInTowPlayerMode():
+# Gameover für die erste Schlange im zwei Spieler Modus.
+def gameOverForFirstBasiliskInTwoPlayerMode():
     basilisk.basiliskDeleteBody()
     basilisk.basiliskGoHome()
     basilisk.setSpeed(0.1)
     
-
+# Gameover für die zweite Schlange im zwei Spieler Modus.
 def gameOverForSecondBasiliskInTowPlayerMode():
     basilisk2.basiliskDeleteBody()
     basilisk2.basiliskGoHome()
     basilisk2.setSpeed(0.1)
 
-def saveHighScoreInFile(): #Verschönern falls am Ende Zeit übrig bleibt
+# Speichere die Liste von highscore in text file.
+def saveHighScoreInFile():
         if basilisk.getTempScore() > 1 and basilisk.getTempScore() not in highScoreList:
             highScoreList.append(basilisk.getTempScore())
             highScoreList [:] = sorted(highScoreList)
@@ -151,7 +157,7 @@ def saveHighScoreInFile(): #Verschönern falls am Ende Zeit übrig bleibt
         if basilisk.getHighScore() in highScoreList:
             return
         
-        else : #Erweitere die Liste mit einem Element dann sortiere sie und lösche das Element mit dem niedrigsten Wert
+        else : # Erweitere die Liste mit einem Element dann sortiere sie und lösche das Element mit dem niedrigsten Wert.
             highScoreList.append(basilisk.getHighScore())
             highScoreList [:] = sorted(highScoreList)
             if len(highScoreList) == 6:
@@ -166,7 +172,7 @@ def saveHighScoreInFile(): #Verschönern falls am Ende Zeit übrig bleibt
 def exit():
     rootWindow.destroy()
 
-
+# save Funktion Speichert die eigenschaften der Sitzung (Schlange und Obst und Gift Position, Schlange länge, Score und die Geschwindigkeit).
 def save():
     data = {}
     data['mouth'] = {'x': basilisk.getXPos(), 'y': basilisk.getYPos()}
@@ -182,7 +188,8 @@ def save():
         json.dump(data, dataFile)
 
 
-def load(): #Diese Funktion wird nur einmal vom Hauptmenü aufgerufen.
+# Lade die Daten der letzten Sitzung für die Schlange und lösche danach diese Daten. Dann starte das Spiel in 1 Spieler Modus.
+def load():
 
     data = {}
     try:
@@ -222,6 +229,7 @@ def load(): #Diese Funktion wird nur einmal vom Hauptmenü aufgerufen.
         except:
             return
 
+# In der loadLastGame Funktion werden alle widgets des RootWindow gelöscht, das subWindowForGamefiled mit den Buttons angezeigt und der Funktion load() aufgerufen.
 def loadLastGame():
     widget_list = all_children(rootWindow)
     for item in widget_list:
@@ -237,6 +245,7 @@ def loadLastGame():
     tk.Button(master = rootWindow, text = "Exit", command = exit , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
     load()
 
+# In der backToMenu Funktion werden alle widgets des RootWindow gelöscht und das Hauptmenü mit den Buttons angezeigt.
 def backToMenu():
     gameOver()
     widget_list = all_children(rootWindow)
@@ -249,6 +258,7 @@ def backToMenu():
     tk.Button(master = rootWindow, text = "Load last Game", command = loadLastGame , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
     tk.Button(master = rootWindow, text = "Exit", command = exit , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
 
+# Gib eine Liste von allen widgets zurück.
 def all_children (rootWindow) :
     _list = rootWindow.winfo_children()
 
@@ -258,9 +268,11 @@ def all_children (rootWindow) :
 
     return _list
 
+# Game over Musik
 def play():
     return PlaySound("model/resources/gameover.wav", SND_FILENAME)
 
+# Bereite alle widgets vor und starte das Spiel für 1 Spieler.
 def startForOnePlayer():
     widget_list = all_children(rootWindow)
     for item in widget_list:
@@ -282,6 +294,7 @@ def startForOnePlayer():
         except:
             return
 
+# Bereite alle widgets vor und starte das Spiel für 2 Spieler.
 def startForTwoPlayer():
 
     widget_list = all_children(rootWindow)
@@ -308,18 +321,21 @@ def startForTwoPlayer():
         except:
             return
 
+# Prüfe ob die erste Schlange die Zweite beißt.
 def basilisk1EatsBasilisk2():
     for oneBlock in basilisk2.getBodyList():
         dead = oneBlock.distance(basilisk.getMouth()) < 20
         if dead:
             return True
 
+# Prüfe ob die zweite Schlange die Erste beißt.
 def basilisk2EatsBasilisk1():
     for oneBlock in basilisk.getBodyList():
         dead = oneBlock.distance(basilisk2.getMouth()) < 20
         if dead:
             return True
 
+# Prüfe ob im Zweispielermodus die zufällige Position des Apfels im Körper einer Schlage erscheint, falls ja, weise ihr eine neue zufällige Position zu.
 def checkIfAppleInBasiliskForTowPlayer():
     for oneBlock in basilisk2.getBodyList():
         isIn = oneBlock.distance(apple.getObj()) < 20
@@ -331,12 +347,13 @@ def checkIfAppleInBasiliskForTowPlayer():
         if isIn:
             return True
 
+# Prüfe ob im Einspielermodus die zufällige Position des Apfels im Körper einer Schlage erscheint, falls ja, weise ihr eine neue zufällige Position zu.
 def checkIfAppleInBasiliskForOnePlayer():
     for oneBlock in basilisk.getBodyList():
         isIn = oneBlock.distance(apple.getObj()) < 20 or oneBlock.distance(poison.getObj()) < 20
         if isIn:
             return True
-
+# Eigenschaften des Ein-Spieler-Modus.
 def onePlayer():
     if basilisk.basiliskEats(poison.getObj()):
         basilisk.basiliskPoisoned()
@@ -373,7 +390,8 @@ def onePlayer():
     basilisk.bodyFollowMouth()
     basilisk.move()
     time.sleep(basilisk.getSpeed())
-
+    
+# Eigenschaften des Zwei-Spieler-Modus.
 def twoPlayer():
     basilisk.basiliskPushTheWall()
     basilisk2.basiliskPushTheWall()
@@ -381,7 +399,7 @@ def twoPlayer():
 
     
     if basilisk.basiliskIsDead() or basilisk1EatsBasilisk2():
-        gameOverForFirstBasiliskInTowPlayerMode()
+        gameOverForFirstBasiliskInTwoPlayerMode()
         basilisk.basiliskLives()
 
     if basilisk2.basiliskIsDead() or basilisk2EatsBasilisk1():
@@ -389,7 +407,7 @@ def twoPlayer():
         basilisk2.basiliskLives()
     
     if basilisk.getMouth().distance(basilisk2.getMouth()) < 15 or basilisk2.getMouth().distance(basilisk.getMouth()) < 15:
-        gameOverForFirstBasiliskInTowPlayerMode()
+        gameOverForFirstBasiliskInTwoPlayerMode()
         gameOverForSecondBasiliskInTowPlayerMode()
         
         basilisk.basiliskLives()
@@ -428,6 +446,7 @@ def twoPlayer():
     time.sleep(0.1)
 
 if __name__ == "__main__":
+    #
     tk.Label(rootWindow, compound = tk.CENTER,text="             Welcome to Basilisk Game           \nHigh Score: {}".format(highScoreList[4]),fg="white",bg= "green", font=("Helvetica", 20)).pack(side="top")
     tk.Label(rootWindow, compound = tk.CENTER,text="", image=logo,bg= "green").pack(side="top")
     tk.Button(master = rootWindow, text = "One Player Mode", command = startForOnePlayer , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
@@ -437,6 +456,7 @@ if __name__ == "__main__":
    
     myGameField.gameListenToPresskey(basilisk)
 
+    # Die zweite Schlange im Einspielermodus nicht aktivieren.
     if basilisk2.isVisible():
         myGameField.gameListenToPresskeyForTowPlayer(basilisk2)
 

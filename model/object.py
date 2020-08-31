@@ -3,6 +3,8 @@ import random
 from turtle import RawTurtle, TurtleScreen
 
 class Object:
+    """Die Klasse Beschreibt wie ein Obst oder Gift aussieht"""
+
     def __init__(self, window, shape):
         self.obj = RawTurtle(window)
         self.obj.speed(0)
@@ -19,6 +21,7 @@ class Object:
     def getXPos(self):
         return self.obj.xcor()
 
+    # In Dieser Methode wird ein Obst oder ein Gift genau auf die Stelle gesetzt, an der der Schlangenkopf es genau im richtige Pixel treffen kann.
     def setPos(self, x, y):
         self.obj.goto(x,y)
         self.obj.sety(self.obj.ycor()-(self.obj.ycor()%20))
@@ -28,7 +31,7 @@ class Object:
     def hideObj(self):
         self.obj.hideturtle()
     
-    def randomPos(self): #Pos darf nicht in Snakes Körper oder Headline stehen
+    def randomPos(self):
         x = random.randint(-280,280)
         y = random.randint(-280,280)
         self.setPos(x, y)

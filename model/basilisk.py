@@ -3,7 +3,8 @@ import time
 from turtle import RawTurtle, TurtleScreen
 
 class Basilisk:
-
+    """Die Klasse Basilisk beschreibt die Eigenschaften und das Verhalten einer Schlange auf dem Spielfeld"""
+    
     def __init__(self, window, shape):
         self.speed = 0.1
         self.score = 0
@@ -12,7 +13,7 @@ class Basilisk:
         self.mouth = RawTurtle(window)
         self.mouth.speed(0)
         self.mouth.shape(shape)
-        self.mouth.home() # Home ist clearer than goto(0,0)
+        self.mouth.home()
         self.mouth.direction = "stop"
         self.mouth.penup()
         
@@ -65,7 +66,8 @@ class Basilisk:
 
     def getMouthDirection(self):
         return self.mouth.direction
-
+    
+# Mit der setMouthDirection Methode bewegt sich die Schlange in eine bestimmte Richtung.
     def setMouthDirection(self, mouthDirection):
         if mouthDirection == "left":
             self.moveLeftwards()
@@ -76,30 +78,35 @@ class Basilisk:
         else:
             self.moveDownwards()
 
+# Mit der moveUpwards Methode bewegt sich die Schlange nach oben.
     def moveUpwards(self):
         gifUp = "model/resources/up.gif"
         if self.mouth.direction != "down":
             self.mouth.direction = "up"
             self.mouth.shape(gifUp)
 
+# Mit der moveDownwards Methode bewegt sich die Schlange nach unten.
     def moveDownwards(self):
         gifDown = "model/resources/down.gif"
         if self.mouth.direction != "up":
             self.mouth.direction = "down"
             self.mouth.shape(gifDown)
 
+# Mit der moveLeftwards Methode bewegt sich die Schlange nach links.
     def moveLeftwards(self):
         gifLeft = "model/resources/left.gif"
         if self.mouth.direction != "right":
             self.mouth.direction = "left"
             self.mouth.shape(gifLeft)
 
+# Mit der moveRightwards Methode bewegt sich die Schlange nach rechts.
     def moveRightwards(self):
         gifRight = "model/resources/right.gif"
         if self.mouth.direction != "left":
             self.mouth.direction = "right"
             self.mouth.shape(gifRight)
-    
+            
+# Mit der move Methode wird beschrieben, wie groß ein Sritt der Schlange in alle Richtungen ist.
     def move(self):
         if self.mouth.direction == "up":
             self.mouth.sety(self.mouth.ycor() + 20)
@@ -119,13 +126,15 @@ class Basilisk:
         if len(self.body) > 0:
             self.body[0].goto(self.mouth.xcor(),self.mouth.ycor())
 
+# Erweitere den Körper um einen Teil.
     def basiliskFeeded(self, window, shape):
         oneBodyBlock = RawTurtle(window)
         oneBodyBlock.speed(0)
         oneBodyBlock.shape(shape)
         oneBodyBlock.penup()
         self.body.append(oneBodyBlock)
-    
+
+# Gib ein Dictionary mit der Position von jedem Teil des Körpers zurück.
     def getBodyPosInListOfDic(self):
         if len(self.body) > 0:
             allBlockskPos = []
@@ -139,7 +148,6 @@ class Basilisk:
     def setBodyBlockPos(self, i, x, y):
         self.body[i].goto(x,y)
 
-    #Wird noch verbessert
     def basiliskPoisoned(self):
         if len(self.body) > 0:
             self.body[-1].goto(1000,1000)
@@ -151,6 +159,7 @@ class Basilisk:
     def basiliskLives(self):
         self.deadFromPoison = False
 
+# Die Schlange darf durch Wände laufen.
     def basiliskPushTheWall(self):
         if self.mouth.xcor() > 290:
             self.mouth.setx (self.mouth.xcor() -580)
@@ -160,11 +169,9 @@ class Basilisk:
             self.mouth.sety (self.mouth.ycor() -580)
         elif self.mouth.ycor() < -290:
             self.mouth.sety (self.mouth.ycor() +580)
-            
+
+# Die Schlange ist tod, wenn sie gegen ihre Körperteile stößt.      
     def basiliskIsDead(self):
-        #basiliskPushTheWall = self.mouth.xcor() > 290 or self.mouth.xcor() < -290 or self.mouth.ycor() > 290 or self.mouth.ycor() < -290
-        
-        #if basiliskPushTheWall or
         if self.deadFromPoison:
             return True
         
