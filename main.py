@@ -215,14 +215,21 @@ def load(): #Diese Funktion wird nur einmal vom Hauptmenü aufgerufen.
 
     os.remove("S:/git/Basilisk/lastGameData.txt")
 
-    
-        
-def LoadMenu():
+    while True:
+        try:
+            myGameField.gamefieldUpdate()
+            onePlayer()
+        except:
+            return
+
+def loadLastGame():
     widget_list = all_children(rootWindow)
     for item in widget_list:
         item.pack_forget()
 
     subWindowForGamefiled.pack(side = tk.LEFT)
+    basilisk2.setMouthPos(1000,1000)
+    basilisk2.hideMouth()
     subWindowForBestList.pack(side = tk.TOP)
     tk.Button(master = rootWindow, text = "Pause", command = pause, bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
     tk.Button(master = rootWindow, text = "Save", command = save , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
@@ -239,7 +246,7 @@ def backToMenu():
     tk.Label(rootWindow, compound = tk.CENTER,text="", image=logo,bg= "green").pack(side="top")
     tk.Button(master = rootWindow, text = "One Player Mode", command = startForOnePlayer , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
     tk.Button(master = rootWindow, text = "Two Player Mode", command = startForTwoPlayer , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)    
-    tk.Button(master = rootWindow, text = "Load last Game", command = LoadMenu , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
+    tk.Button(master = rootWindow, text = "Load last Game", command = loadLastGame , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
     tk.Button(master = rootWindow, text = "Exit", command = exit , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
 
 def all_children (rootWindow) :
@@ -425,7 +432,7 @@ if __name__ == "__main__":
     tk.Label(rootWindow, compound = tk.CENTER,text="", image=logo,bg= "green").pack(side="top")
     tk.Button(master = rootWindow, text = "One Player Mode", command = startForOnePlayer , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
     tk.Button(master = rootWindow, text = "Two Player Mode", command = startForTwoPlayer , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
-    tk.Button(master = rootWindow, text = "Load last Game", command = LoadMenu , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
+    tk.Button(master = rootWindow, text = "Load last Game", command = loadLastGame , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
     tk.Button(master = rootWindow, text = "Exit", command = exit , bg='springgreen4' , activebackground = 'green', fg = 'white').pack(fill=tk.BOTH)
    
     myGameField.gameListenToPresskey(basilisk)
